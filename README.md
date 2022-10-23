@@ -16,18 +16,20 @@ To play with the Charming Accelerators, following software and hardware dependen
 https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms/2021-1.html
 
 2. VCK190 Base 2021.1: It contains the pre-built Versal extensible embedded platform. During compilation users need to specify the platofrm path in the following format.<br/> 
-``PLATFORM = ${PATH}/xilinx_vck190_base_202110_1/xilinx_vck190_base_202110_1.xpfm``
+```
+PLATFORM = ${PATH}/xilinx_vck190_base_202110_1/xilinx_vck190_base_202110_1.xpfm
+```
 
 3. Versal common image: It includes the petalinux system boot files and the cross compilation environment needed for ARM CPU. Users can install the petalinux by running ``./sdk.sh``. During compilation, users need to point the path to SYSROOT and EDGE_COMMON_SW.<br/>
-``
+```
 SYSROOT = ${PATH}/sysroots/cortexa72-cortexa53-xilinx-linux
 EDGE_COMMON_SW=${PATH}/xilinx-versal-common-v2021.1
-``
+```
 
-4. Vitis and Cross-compilation Env Setup
-``
+4. Vitis and Cross-compilation Environment Setup<br/>
+```
 source /opt/tools/xilinx/Vitis/2021.1/settings64.sh
 source /opt/xilinx/xrt/setup.sh
 unset LD_LIBRARY_PATH (If needed)
 source ${PATH}/environment-setup-cortexa72-cortexa53-xilinx-linux
-``
+```
