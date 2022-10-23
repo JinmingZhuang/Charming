@@ -22,6 +22,8 @@ XSA	 = vck190_aie_base_graph_${TARGET}.xsa
 XPFM	 = vck190_xpfm
 HOST_EXE = hostexe
 HOST_SRCS := ./host/host.cpp
+HOST_EXE_BERT = hostexe_bert
+HOST_SRCS_BERT := ./host/host_BERT.cpp
 SDKTARGETSYSROOT = ${SYSROOT}
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
@@ -35,6 +37,7 @@ GRAPH    = aie/mm_top.cpp
 LIBADF  = libadf.a
 AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=4096 -include="./aie" -workdir=./Work ${GRAPH} #-v
 AIE_SIM_CMD = aiesimulator --pkg-dir=./Work --dump-vcd foo --profile
+AIE_HOSTEXE = ./aie_control_xrt.o
 EMU_CMD = ./launch_hw_emu.sh
 PACKAGE_OUT = ./package.$(TARGET)
 RM = rm -f
@@ -143,13 +146,21 @@ $(BUILD_DIR)/${XCLBIN}: ${KERNEL_XO} ${LIBADF}
 	mkdir -p $(BUILD_DIR)
 	v++ -l $(CLFLAGS) --temp_dir $(BUILD_DIR) $(LDCLFLAGS) -o'$@' $(+) | tee $(BUILD_DIR)/hpc_xclbin.log
 
+aiehost: $(AIE_HOSTEXE)
+$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
+	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
 
-host: guard-CXX guard-SDKTARGETSYSROOT ${HOST_EXE}
-${HOST_EXE}:
-	$(CXX) -g $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./Work/ps/c_rts/aie_control_xrt.cpp
-	$(CXX) -g $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
-	$(CXX) -g *.o $(GCC_LIB) -o $(HOST_EXE)
+host: guard-CXX guard-SDKTARGETSYSROOT ${HOST_EXE} 
+${HOST_EXE}: $(AIE_HOSTEXE)
+	$(CXX) $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
+	$(CXX) $(AIE_HOSTEXE) main.o $(GCC_LIB) -o $(HOST_EXE)
 	@echo "COMPLETE: Host application created."
+
+berthost: ${HOST_EXE_BERT}
+${HOST_EXE_BERT}: $(AIE_HOSTEXE)
+	$(CXX) $(HOST_SRCS_BERT) $(GCC_FLAGS) $(GCC_INCLUDES) -o bert.o
+	$(CXX) $(AIE_HOSTEXE) bert.o $(GCC_LIB) -o ${HOST_EXE_BERT}
+	@echo "COMPLETE: Host_BERT application created."
 
 ECHO:= @echo
 gen_run_app:
@@ -181,7 +192,6 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host gen_run_app
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
 		--package.sd_file run_app.sh \
-		--package.sd_file run_mm.sh \
 		--package.sd_file ${HOST_EXE} ${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 
