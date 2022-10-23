@@ -181,6 +181,7 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host gen_run_app
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
 		--package.sd_file run_app.sh \
+		--package.sd_file run_mm.sh \
 		--package.sd_file ${HOST_EXE} ${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 
