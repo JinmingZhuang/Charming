@@ -37,19 +37,19 @@ source ${PATH}/environment-setup-cortexa72-cortexa53-xilinx-linux
 The compilation processes are the same for all the designs. In the following part we take one unified/monolithic design as an example.
 1. AIE Compilation
 ```
-make aie
+make aie PLATFORM=${PATH} 
 ```
 The source files of AIE design is in one_unified/aie folder, we leverage aiecompiler to generate the libadf.a file. 
 
 2. Programmable Logic (PL) Compilation
 ```
-make build
+make build PLATFORM=${PATH} 
 ```
 The source files of PL design is in one_unified/kernel folder, we leverage Vitis HLS to generate the RTL code and Vitis to generate the bitstream. 
 
 3. Host Compilation
 ```
-make host
+make host SYSROOT=${PATH} EDGE_COMMON_SW=${PATH}
 ```
 The source files of PL design is in one_unified/host folder, we leverage the cross-compilation tool to generate the executable file that can be run on ARM CPU.
 
