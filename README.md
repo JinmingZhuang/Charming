@@ -61,5 +61,10 @@ In this step, we package all the file together to package.hw/sd_card.img includi
 
 ## Run Experiments on Board
 1. Copy sd_card.img to an micro sd card
-Linux: ```dd if=package.hw/sd_card.img of=[sdcard] bs=4M ```
-Windows: 
+https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Images-to-the-SD-Card
+
+2. Execution
+```
+cd /mnt/sd-mmcblk0p1
+./hostexe mm_hw.xclbin 6144 6144 6144 1 0
+```
