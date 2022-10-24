@@ -34,24 +34,24 @@ unset LD_LIBRARY_PATH (If needed)
 source ${PATH}/environment-setup-cortexa72-cortexa53-xilinx-linux
 ```
 ## Compile Charming Accelerators<br/>
-The compilation processes are the same for all the designs. In the following part we take one unified/monolithic design as an example.<br/>
+The compilation processes are the same for all the designs. In the following part we take one monolithic design as an example.<br/>
 1. AIE Compilation<br/>
 ```
 make aie PLATFORM=${PATH} 
 ```
-The source files of AIE design is in one_unified/aie folder, we leverage aiecompiler to generate the libadf.a file. <br/>
+The source files of AIE design is in one_monolithic/aie folder, we leverage aiecompiler to generate the libadf.a file. <br/>
 
 2. Programmable Logic (PL) Compilation<br/>
 ```
 make build PLATFORM=${PATH} 
 ```
-The source files of PL design is in one_unified/kernel folder, we leverage Vitis HLS to generate the RTL code and Vitis to generate the bitstream. <br/>
+The source files of PL design is in one_monolithic/kernel folder, we leverage Vitis HLS to generate the RTL code and Vitis to generate the bitstream. <br/>
 
 3. Host Compilation<br/>
 ```
 make host SYSROOT=${PATH} EDGE_COMMON_SW=${PATH}
 ```
-The source files of PL design is in one_unified/host folder, we leverage the cross-compilation tool to generate the executable file that can be run on ARM CPU.<br/>
+The source files of PL design is in one_monolithic/host folder, we leverage the cross-compilation tool to generate the executable file that can be run on ARM CPU.<br/>
 
 4. File Package<br/>
 ```
@@ -72,7 +72,7 @@ cd /mnt/sd-mmcblk0p1
 ![image](https://user-images.githubusercontent.com/77606152/197424370-bc03e3f3-cc04-4876-85ec-a59a006b7319.png)<br/>
 After copying the corresponding sd_card.img and booting the board, please run the following commands to reproduce the experiment result presented in the paper. <br/>
 
-#### 1. One unified/monolithic design result<br/>
+#### 1. One monolithic design result<br/>
 A) Single GEMM Throughput of One Monolithic Design (Table 2)<br/>
 ```
 ./run_mm.sh
