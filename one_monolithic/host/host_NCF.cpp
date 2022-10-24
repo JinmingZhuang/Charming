@@ -880,6 +880,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer0 Passed\n");
+        else
+            printf("Layer0 Failed\n");
 
         for (int m = 0; m < layer[1][0]; m++) {
             for (int n = 0; n < layer[1][2]; n++) {
@@ -900,6 +902,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer1 Passed\n");
+        else
+            printf("Layer1 Failed\n");
 
         for (int m = 0; m < layer[2][0]; m++) {
             for (int n = 0; n < layer[2][2]; n++) {
@@ -920,6 +924,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer2 Passed\n");
+        else
+            printf("Layer2 Failed\n");
 
         for (int m = 0; m < layer[3][0]; m++) {
             for (int n = 0; n < layer[3][2]; n++) {
@@ -940,6 +946,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer3 Passed\n");
+        else
+            printf("Layer3 Failed\n");
 
         for (int m = 0; m < layer[4][0]; m++) {
             for (int n = 0; n < layer[4][2]; n++) {
@@ -960,6 +968,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer4 Passed\n");
+        else
+            printf("Layer4 Failed\n");
 
         for (int m = 0; m < layer[5][0]; m++) {
             for (int n = 0; n < layer[5][2]; n++) {
@@ -980,6 +990,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer5 Passed\n");
+        else
+            printf("Layer5 Failed\n");
 
         for (int m = 0; m < layer[6][0]; m++) {
             for (int n = 0; n < layer[6][2]; n++) {
@@ -1000,6 +1012,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer6 Passed\n");
+        else
+            printf("Layer6 Failed\n");
 
         for (int m = 0; m < layer[7][0]; m++) {
             for (int n = 0; n < layer[7][2]; n++) {
@@ -1020,6 +1034,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer7 Passed\n");
+        else
+            printf("Layer7 Failed\n");
 
         for (int m = 0; m < layer[8][0]; m++) {
             for (int n = 0; n < layer[8][2]; n++) {
@@ -1040,6 +1056,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount)
             printf("Layer8 Passed\n");
+        else
+            printf("Layer8 Failed\n");
         
         if (errorCount)
             printf("Test failed with %d errors\n", errorCount);

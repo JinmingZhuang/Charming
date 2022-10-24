@@ -28,6 +28,8 @@ HOST_EXE_ViT = hostexe_vit
 HOST_SRCS_ViT := ./host/host_ViT.cpp
 HOST_EXE_MLP = hostexe_mlp
 HOST_SRCS_MLP := ./host/host_MLP.cpp
+HOST_EXE_NCF = hostexe_ncf
+HOST_SRCS_NCF := ./host/host_NCF.cpp
 SYSROOT = /share/Jinming/Versal/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
 EDGE_COMMON_SW=/share/Jinming/xilinx-versal-common-v2021.1
@@ -171,14 +173,21 @@ ${HOST_EXE_BERT}: $(AIE_HOSTEXE)
 hostvit: ${HOST_EXE_ViT}
 ${HOST_EXE_ViT}: $(AIE_HOSTEXE)
 	$(CXX) $(HOST_SRCS_ViT) $(GCC_FLAGS) $(GCC_INCLUDES) -o vit.o
-	$(CXX) $(AIE_HOSTEXE) ViT.o $(GCC_LIB) -o ${HOST_EXE_ViT}
+	$(CXX) $(AIE_HOSTEXE) vit.o $(GCC_LIB) -o ${HOST_EXE_ViT}
 	@echo "COMPLETE: Host_ViT application created."
 
 hostmlp: ${HOST_EXE_MLP}
 ${HOST_EXE_MLP}: $(AIE_HOSTEXE)
 	$(CXX) $(HOST_SRCS_MLP) $(GCC_FLAGS) $(GCC_INCLUDES) -o mlp.o
-	$(CXX) $(AIE_HOSTEXE) MLP.o $(GCC_LIB) -o ${HOST_EXE_MLP}
+	$(CXX) $(AIE_HOSTEXE) mlp.o $(GCC_LIB) -o ${HOST_EXE_MLP}
 	@echo "COMPLETE: Host_MLP application created."
+
+hostncf: ${HOST_EXE_NCF}
+${HOST_EXE_NCF}: $(AIE_HOSTEXE)
+	$(CXX) $(HOST_SRCS_NCF) $(GCC_FLAGS) $(GCC_INCLUDES) -o NCF.o
+	$(CXX) $(AIE_HOSTEXE) NCF.o $(GCC_LIB) -o ${HOST_EXE_NCF}
+	@echo "COMPLETE: Host_NCF application created."
+
 
 ECHO:= @echo
 gen_run_app:

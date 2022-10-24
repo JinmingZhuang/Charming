@@ -120,47 +120,35 @@ int main(int argc, char** argv) {
     int sizeOut = M * N;
     
     
-    std::vector<std::vector<float>>DataInput0(M,std::vector<float>(K,1.0));
-    std::vector<std::vector<float>>DataInput1(K,std::vector<float>(N,1.0));
-    std::vector<std::vector<float>>golden(M,std::vector<float>(N,1.0));
-
+    std::vector<float> DataInput0(sizeIn1,1.0);
+    std::vector<float> DataInput1(sizeIn2,1.0);
+    std::vector<float> golden(sizeOut,1.0);
 
 
     srand (time(0));
-    for (int m = 0; m < M; m++) {
-        for (int k = 0; k < K; k++) {
-            DataInput0[m][k]= (rand()%5)*(float)1.0;
-        } 
-    }
+
+    for (int k = 0; k < sizeIn1; k++) {
+        DataInput0[k]= (rand()%5)*(float)1.0;
+    } 
+
 
     srand (time(0));
-    for (int k = 0; k < K; k++) {
-        for (int n = 0; n < N; n++) {
-            DataInput1[k][n]= (rand()%5)*(float)1.0;
-        } 
+    for (int k = 0; k < sizeIn2; k++) {
+        DataInput1[k]= (rand()%5)*(float)1.0;
     }
     
     //Allocate input mem
     xrtBufferHandle in_bohdl0 = xrtBOAlloc(dhdl, sizeIn1 * sizeof(float), 0, 0);
     auto in_bomapped0 = reinterpret_cast<float*>(xrtBOMap(in_bohdl0));
-
+    for (int k = 0; k < sizeIn1; k++) {
+        in_bomapped0 [k]= DataInput0[k];
+    } 
 
     xrtBufferHandle in_bohdl1 = xrtBOAlloc(dhdl, sizeIn2 * sizeof(float), 0, 0);
     auto in_bomapped1 = reinterpret_cast<float*>(xrtBOMap(in_bohdl1));
-    
-    for (int m = 0; m < M; m++) {
-        for (int k = 0; k < K; k++) {
-            in_bomapped0[m+k*M]=DataInput0[m][k];
-        } 
-    }
-
-    for (int k = 0; k < K; k++) {
-        for (int n = 0; n < N; n++) {
-            in_bomapped1[k+n*K]=DataInput1[k][n];
-        } 
-    }
-    
-    
+    for (int k = 0; k < sizeIn2; k++) {
+        in_bomapped1 [k]= DataInput1[k];
+    } 
 
     // sync input memory
     xrtBOSync(in_bohdl0, XCL_BO_SYNC_BO_TO_DEVICE , sizeIn1* sizeof(float),0);
@@ -172,7 +160,7 @@ int main(int argc, char** argv) {
 
     out_bohdl = xrtBOAlloc(dhdl, sizeOut* sizeof(float), 0, 0);
     out_bomapped = reinterpret_cast<float*>(xrtBOMap(out_bohdl));
-    
+    memset(out_bomapped, 0xABCDEF00, sizeOut * sizeof(float));
     myGraph.init();
                               
     printf("graph run\n");
@@ -229,6 +217,7 @@ int main(int argc, char** argv) {
         
     xrtRunClose(dma_rhdl);
     xrtKernelClose(dma_khdl);
+    
 
     
     ////////////////////////////////////////////
@@ -241,9 +230,9 @@ int main(int argc, char** argv) {
             for (int n = 0; n < N; n++) {
                 sum =0;
                 for (int k = 0; k < K; k++) {
-                    sum=sum+DataInput0[m][k]*DataInput1[k][n];
+                    sum=sum+DataInput0[m+k*M]*DataInput1[k+n*K];
                 }
-                golden[m][n]=sum;
+                golden[m+n*M]=sum;
             } 
         }
     
@@ -251,8 +240,8 @@ int main(int argc, char** argv) {
         int errorCount = 0;  
         for (int m = 0; m < M; m++) {
             for (int n = 0; n < N; n++) {
-                if(abs((float)(out_bomapped[m+n*M])-golden[m][n])>=1e-3){
-                    printf("Error found out_bomapped[%d][%d]!=golden[%d][%d], %f!=%f \n", m,n,m,n,out_bomapped[m+n*M],golden[m][n]);
+                if(abs((float)(out_bomapped[m+n*M])-golden[m+n*M])>=1e-3){
+                    printf("Error found out_bomapped[%d][%d]!=golden[%d][%d], %f!=%f \n", m,n,m,n,out_bomapped[m+n*M],golden[m+n*M]);
                     errorCount++;
                 }
 
