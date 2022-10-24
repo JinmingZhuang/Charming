@@ -89,8 +89,8 @@ const int layer[NUM_LARYER][4] =
     {3072,1024,4096,1},
     {3072,4096,1024,1},
     {3072,1024,3072,1},
-    {1536,128,1024,batch_size},
-    {1536,128,1024,batch_size}
+    {256,256,256,batch_size},
+    {256,256,256,batch_size}
 };
 
 
@@ -447,7 +447,7 @@ int main(int argc, char** argv) {
 
 
     std::cout << "Kernel run\n";
-    xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "dma");
+    xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "dma_large");
     xrtRunHandle dma_rhdl;
     std::vector<double>kernel_time_in_sec(NUM_LARYER,0.0);
     
