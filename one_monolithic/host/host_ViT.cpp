@@ -725,17 +725,20 @@ int main(int argc, char** argv) {
             }
         }
 
-        int errorCount = 0;
+        int errorCount0 = 0;
         for (int m = 0; m < layer[0][0]; m++) {
             for (int n = 0; n < layer[0][2]; n++) {
                 if(abs((float)(bomapped_layer0_out[m+n*layer[0][0]])-layer0_golden[m][n])>=1e-3){
-                    errorCount++;
+                    errorCount0++;
                 }
             }
         }
-        if (!errorCount)
+        if (!errorCount0)
             printf("Layer0 Passed\n");
+        else
+            printf("Layer0 Failed\n");
 
+        int errorCount1 = 0;
         for (int m = 0; m < layer[1][0]; m++) {
             for (int n = 0; n < layer[1][2]; n++) {
                 sum =0;
@@ -749,13 +752,16 @@ int main(int argc, char** argv) {
         for (int m = 0; m < layer[1][0]; m++) {
             for (int n = 0; n < layer[1][2]; n++) {
                 if(abs((float)(bomapped_layer1_out[m+n*layer[1][0]])-layer1_golden[m][n])>=1e-3){
-                    errorCount++;
+                    errorCount1++;
                 }
             }
         }
-        if (!errorCount)
+        if (!errorCount1)
             printf("Layer1 Passed\n");
+        else
+            printf("Layer1 Failed\n");
 
+        int errorCount2 = 0;
         for (int m = 0; m < layer[2][0]; m++) {
             for (int n = 0; n < layer[2][2]; n++) {
                 sum =0;
@@ -769,13 +775,16 @@ int main(int argc, char** argv) {
         for (int m = 0; m < layer[2][0]; m++) {
             for (int n = 0; n < layer[2][2]; n++) {
                 if(abs((float)(bomapped_layer2_out[m+n*layer[2][0]])-layer2_golden[m][n])>=1e-3){
-                    errorCount++;
+                    errorCount2++;
                 }
             }
         }
-        if (!errorCount)
+        if (!errorCount2)
             printf("Layer2 Passed\n");
+        else
+            printf("Layer2 Failed\n");
 
+        int errorCount3 = 0;
         for (int m = 0; m < layer[3][0]; m++) {
             for (int n = 0; n < layer[3][2]; n++) {
                 sum =0;
@@ -789,13 +798,16 @@ int main(int argc, char** argv) {
          for (int m = 0; m < layer[3][0]; m++) {
             for (int n = 0; n < layer[3][2]; n++) {
                 if(abs((float)(bomapped_layer3_out[m+n*layer[3][0]])-layer3_golden[m][n])>=1e-3){
-                    errorCount++;
+                    errorCount3++;
                 }
             }
         }
-        if (!errorCount)
+        if (!errorCount3)
             printf("Layer3 Passed\n");
-
+        else
+            printf("Layer3 Failed\n");
+        
+        int errorCount4 = 0;
         for (int m = 0; m < layer[4][0]; m++) {
             for (int n = 0; n < layer[4][2]; n++) {
                 sum =0;
@@ -809,12 +821,14 @@ int main(int argc, char** argv) {
         for (int m = 0; m < layer[4][0]; m++) {
             for (int n = 0; n < layer[4][2]; n++) {
                 if(abs((float)(bomapped_layer4_out[m+n*layer[4][0]])-layer4_golden[m][n])>=1e-3){
-                    errorCount++;
+                    errorCount4++;
                 }
             }
         }
-        if (!errorCount)
+        if (!errorCount4)
             printf("Layer4 Passed\n");
+        else
+            printf("Layer4 Failed\n");
 
         for (int m = 0; m < layer[5][0]; m++) {
             for (int n = 0; n < layer[5][2]; n++) {
@@ -826,16 +840,20 @@ int main(int argc, char** argv) {
             }
         }
 
+        int errorCount5 = 0;
         for (int m = 0; m < layer[5][0]; m++) {
             for (int n = 0; n < layer[5][2]; n++) {
                 if(abs((float)(bomapped_layer5_out[m+n*layer[5][0]])-layer5_golden[m][n])>=1e-3){
-                    errorCount++;
+                    errorCount5++;
                 }
             }
         }
-        if (!errorCount)
+        if (!errorCount5)
             printf("Layer5 Passed\n");
+        else
+            printf("Layer5 Failed\n");
 
+        int errorCount6 = 0;
         for (int m = 0; m < layer[6][0]; m++) {
             for (int n = 0; n < layer[6][2]; n++) {
                 sum =0;
@@ -849,17 +867,14 @@ int main(int argc, char** argv) {
         for (int m = 0; m < layer[6][0]; m++) {
             for (int n = 0; n < layer[6][2]; n++) {
                 if(abs((float)(bomapped_layer6_out[m+n*layer[6][0]])-layer6_golden[m][n])>=1e-3){
-                    errorCount++;
+                    errorCount6++;
                 }
             }
         }
-        if (!errorCount)
+        if (!errorCount6)
             printf("Layer6 Passed\n");
-        
-        if (errorCount)
-            printf("Test failed with %d errors\n", errorCount);
         else
-            printf("TEST PASSED\n");
+            printf("Layer6 Failed\n");
     }
 
     //////////////////////////////////////////

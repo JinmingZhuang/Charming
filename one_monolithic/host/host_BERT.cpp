@@ -833,6 +833,8 @@ int main(int argc, char** argv) {
         }
         if (!errorCount0)
             printf("Layer0 Passed\n");
+        else
+            printf("Layer0 Failed\n");
 
         int errorCount1 = 0;
         for (int m = 0; m < layer[1][0]; m++) {
