@@ -61,38 +61,42 @@ const int X=8;
 const int Y=1;
 const int Z=2;
 
+const int M_acc=H1*A*X;
+const int K_acc=W1*B*Y;
+const int N_acc=W2*C*Z;
 
+const int D0=1;
+const int D1=1;
+const int batch_size=D0*D1;
+const int NUM_LARYER=4;
 
-const int DATA_SIZE1=H1*W1;
-const int DATA_SIZE2=W1*W2;
-const int OUT_SIZE=H1*W2;
+const int layer_in[NUM_LARYER][4] =
+{
+    {3072,2048,4096,1},
+    {3072,4096,4096,1},
+    {3072,4096,4096,1},
+    {3072,4096,1024,1}
+};
 
-
+const int layer[NUM_LARYER][4] =
+{
+    {3072,2048,4096,1},
+    {3072,4096,4096,1},
+    {3072,4096,4096,1},
+    {3072,4096,1024,1}
+};
 
 int main(int argc, char** argv) {
-
-    int TX,TY,TZ;
-    int M1=4096,K1=4096,N1=4096;
     int iter=500,verify=0;
     char* xclbinFilename;
-    if(argc == 7) {
+    if(argc == 4) {
         xclbinFilename = argv[1];
-        if (sscanf (argv[2], "%i", &M1) != 1) {
+        if (sscanf (argv[2], "%i", &iter) != 1) {
             fprintf(stderr, "error - not an integer");
         }
-        if (sscanf (argv[3], "%i", &K1) != 1) {
+        if (sscanf (argv[3], "%i", &verify) != 1) {
             fprintf(stderr, "error - not an integer");
         }
-        if (sscanf (argv[4], "%i", &N1) != 1) {
-            fprintf(stderr, "error - not an integer");
-        }
-        if (sscanf (argv[5], "%i", &iter) != 1) {
-            fprintf(stderr, "error - not an integer");
-        }
-        if (sscanf (argv[6], "%i", &verify) != 1) {
-            fprintf(stderr, "error - not an integer");
-        }
-        
     }
     
     //////////////////////////////////////////
@@ -105,105 +109,191 @@ int main(int argc, char** argv) {
     auto top = reinterpret_cast<const axlf*>(xclbin.data());
     adf::registerXRT(dhdl, top->m_header.uuid);
 
-    float temp_m=(float)(M1)/(float)(X*A*H1);
-    float temp_k=(float)(K1)/(float)(Y*B*W1);
-    float temp_n=(float)(N1)/(float)(Z*C*W2);
-    TX=ceil(temp_m);
-    TY=ceil(temp_k);
-    TZ=ceil(temp_n);
-    int Lar_X=X*TX;
-    int Lar_Y=Y*TY;
-    int Lar_Z=Z*TZ;
-    int sizeIn1 = DATA_SIZE1*A*B*Lar_X*Lar_Y;
-    int sizeIn2 = DATA_SIZE2*B*C*Lar_Y*Lar_Z;
-    int sizeOut = OUT_SIZE*A*C*Lar_X*Lar_Z;
-    
-    std::vector<std::vector<std::vector<std::vector<std::vector<float>>>>> DataInput0(Lar_X, std::vector<std::vector<std::vector<std::vector<float>>>>(Lar_Y, std::vector<std::vector<std::vector<float>>>(A,std::vector<std::vector<float>>(B,std::vector<float>(DATA_SIZE1, 1)))));
-    std::vector<std::vector<std::vector<std::vector<std::vector<float>>>>> DataInput1(Lar_Z, std::vector<std::vector<std::vector<std::vector<float>>>>(Lar_Y, std::vector<std::vector<std::vector<float>>>(B,std::vector<std::vector<float>>(C,std::vector<float>(DATA_SIZE2, 1)))));
-    std::vector<std::vector<std::vector<std::vector<std::vector<float>>>>> golden(Lar_Z, std::vector<std::vector<std::vector<std::vector<float>>>>(Lar_X, std::vector<std::vector<std::vector<float>>>(A,std::vector<std::vector<float>>(C,std::vector<float>(OUT_SIZE, 1)))));
+    //layer0
+    std::vector<std::vector<float>>layer0_in0(layer[0][0],std::vector<float>(layer[0][1],1.0));
+    std::vector<std::vector<float>>layer0_in1(layer[0][1],std::vector<float>(layer[0][2],1.0));
+    std::vector<std::vector<float>>layer0_golden(layer[0][0],std::vector<float>(layer[0][2],1.0));
+
+    //layer1
+    std::vector<std::vector<float>>layer1_in0(layer[1][0],std::vector<float>(layer[1][1],1.0));
+    std::vector<std::vector<float>>layer1_in1(layer[1][1],std::vector<float>(layer[1][2],1.0));
+    std::vector<std::vector<float>>layer1_golden(layer[1][0],std::vector<float>(layer[1][2],1.0));
+
+    //layer2
+    std::vector<std::vector<float>>layer2_in0(layer[2][0],std::vector<float>(layer[2][1],1.0));
+    std::vector<std::vector<float>>layer2_in1(layer[2][1],std::vector<float>(layer[2][2],1.0));
+    std::vector<std::vector<float>>layer2_golden(layer[2][0],std::vector<float>(layer[2][2],1.0));
+
+    //layer3
+    std::vector<std::vector<float>>layer3_in0(layer[3][0],std::vector<float>(layer[3][1],1.0));
+    std::vector<std::vector<float>>layer3_in1(layer[3][1],std::vector<float>(layer[3][2],1.0));
+    std::vector<std::vector<float>>layer3_golden(layer[3][0],std::vector<float>(layer[3][2],1.0));
 
 
 
+    //layer0
     srand (time(0));
-    for (int m = 0; m < Lar_X; m++) {
-        for (int n = 0; n < Lar_Y; n++) {
-            for (int k = 0; k < A; k++) {
-                for (int j = 0; j < B; j++) {
-                    for (int i = 0; i < DATA_SIZE1; i++) {
-                        DataInput0[m][n][k][j][i] = (rand()%5)*(float)1.0;
-                    }
-                }
-            }
+    for (int m = 0; m < layer[0][0]; m++) {
+        for (int k = 0; k < layer[0][1]; k++) {
+            layer0_in0[m][k]= (rand()%5)*(float)1.0;
         }
     }
-
     srand (time(0));
-    for (int m = 0; m < Lar_Z; m++) {
-        for (int n = 0; n < Lar_Y; n++) {
-            for (int k = 0; k < B; k++) {
-                for (int j = 0; j < C; j++) {
-                    for (int i = 0; i < DATA_SIZE2; i++) {
-                        DataInput1[m][n][k][j][i] = (rand()%5)*(float)1.0; //
-                    }
-                }
-            }
-        }
-    }
-    
-    //Allocate input mem
-    xrtBufferHandle in_bohdl0 = xrtBOAlloc(dhdl, sizeIn1 * sizeof(float), 0, 0);
-    auto in_bomapped0 = reinterpret_cast<float*>(xrtBOMap(in_bohdl0));
-
-
-    xrtBufferHandle in_bohdl1 = xrtBOAlloc(dhdl, sizeIn2 * sizeof(float), 0, 0);
-    auto in_bomapped1 = reinterpret_cast<float*>(xrtBOMap(in_bohdl1));
-    
-    for(int q=0;q<TX;q++){
-        for(int m=0;m<Lar_Y;m++){
-            for(int k=0;k<B;k++){
-                for(int p=0;p<W1;p++){
-                    for(int n=0;n<X;n++){
-                        for(int j=0;j<A;j++){
-                            for(int i=0;i<H1;i++){
-                                in_bomapped0[i+j*H1+n*A*H1+p*X*A*H1+k*X*A*DATA_SIZE1+m*B*X*A*DATA_SIZE1+q*Lar_Y*B*X*A*DATA_SIZE1]=DataInput0[n+q*X][m][j][k][i*W1+p];
-                            }
-                        }
-                    }
-                }
-            }
+    for (int k = 0; k < layer[0][1]; k++) {
+        for (int n = 0; n < layer[0][2]; n++) {
+            layer0_in1[k][n]= (rand()%5)*(float)1.0;
         }
     }
 
-    for(int q=0;q<TZ;q++){
-        for(int p=0;p<TY;p++){
-            for(int z=0;z<Z;z++){
-                for(int k=0;k<C;k++){
-                    for(int j=0;j<W2;j++){
-                        for(int n=0;n<Y;n++){
-                            for(int i=0;i<B;i++){
-                                for (int m=0;m<W1;m++){
-                                    in_bomapped1[m+i*W1+n*B*W1+j*Y*B*W1+k*DATA_SIZE2*B*Y+z*C*DATA_SIZE2*B*Y+p*Z*C*DATA_SIZE2*B*Y+q*Z*C*DATA_SIZE2*B*Y*TY]=DataInput1[z+q*Z][n+p*Y][i][k][m*W2+j];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    //layer1
+    srand (time(0));
+    for (int m = 0; m < layer[1][0]; m++) {
+        for (int k = 0; k < layer[1][1]; k++) {
+            layer1_in0[m][k]= (rand()%5)*(float)1.0;
+        }
+    }
+    srand (time(0));
+    for (int k = 0; k < layer[1][1]; k++) {
+        for (int n = 0; n < layer[1][2]; n++) {
+            layer1_in1[k][n]= (rand()%5)*(float)1.0;
+        }
+    }
+
+    //layer2
+    srand (time(0));
+    for (int m = 0; m < layer[2][0]; m++) {
+        for (int k = 0; k < layer[2][1]; k++) {
+            layer2_in0[m][k]= (rand()%5)*(float)1.0;
+        }
+    }
+    srand (time(0));
+    for (int k = 0; k < layer[2][1]; k++) {
+        for (int n = 0; n < layer[2][2]; n++) {
+            layer2_in1[k][n]= (rand()%5)*(float)1.0;
+        }
+    }
+
+    //layer3
+    srand (time(0));
+    for (int m = 0; m < layer[3][0]; m++) {
+        for (int k = 0; k < layer[3][1]; k++) {
+            layer3_in0[m][k]= (rand()%5)*(float)1.0;
+        }
+    }
+    srand (time(0));
+    for (int k = 0; k < layer[3][1]; k++) {
+        for (int n = 0; n < layer[3][2]; n++) {
+            layer3_in1[k][n]= (rand()%5)*(float)1.0;
+        }
+    }
+    
+    //layer0
+    xrtBufferHandle bohdl_layer0_in0 = xrtBOAlloc(dhdl, (layer[0][0]*layer[0][1]) * sizeof(float), 0, 0);
+    auto bomapped_layer0_in0 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer0_in0));
+    xrtBufferHandle bohdl_layer0_in1 = xrtBOAlloc(dhdl, (layer[0][1]*layer[0][2]) * sizeof(float), 0, 0);
+    auto bomapped_layer0_in1 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer0_in1));
+
+    //layer1
+    xrtBufferHandle bohdl_layer1_in0 = xrtBOAlloc(dhdl, (layer[1][0]*layer[1][1]) * sizeof(float), 0, 0);
+    auto bomapped_layer1_in0 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer1_in0));
+    xrtBufferHandle bohdl_layer1_in1 = xrtBOAlloc(dhdl, (layer[1][1]*layer[1][2]) * sizeof(float), 0, 0);
+    auto bomapped_layer1_in1 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer1_in1));
+
+    //layer2
+    xrtBufferHandle bohdl_layer2_in0 = xrtBOAlloc(dhdl, (layer[2][0]*layer[2][1]) * sizeof(float), 0, 0);
+    auto bomapped_layer2_in0 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer2_in0));
+    xrtBufferHandle bohdl_layer2_in1 = xrtBOAlloc(dhdl, (layer[2][1]*layer[2][2]) * sizeof(float), 0, 0);
+    auto bomapped_layer2_in1 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer2_in1));
+
+    //layer3
+    xrtBufferHandle bohdl_layer3_in0 = xrtBOAlloc(dhdl, (layer[3][0]*layer[3][1]) * sizeof(float), 0, 0);
+    auto bomapped_layer3_in0 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer3_in0));
+    xrtBufferHandle bohdl_layer3_in1 = xrtBOAlloc(dhdl, (layer[3][1]*layer[3][2]) * sizeof(float), 0, 0);
+    auto bomapped_layer3_in1 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer3_in1));
+    
+    //layer0
+    for (int m = 0; m < layer[0][0]; m++) {
+        for (int k = 0; k < layer[0][1]; k++) {
+            bomapped_layer0_in0[m+k*layer[0][0]]=layer0_in0[m][k];
+        }
+    }
+    for (int k = 0; k < layer[0][1]; k++) {
+        for (int n = 0; n < layer[0][2]; n++) {
+            bomapped_layer0_in1[k+n*layer[0][1]]=layer0_in1[k][n];
+        }
+    }
+
+    //layer1
+    for (int m = 0; m < layer[1][0]; m++) {
+        for (int k = 0; k < layer[1][1]; k++) {
+            bomapped_layer1_in0[m+k*layer[1][0]]=layer1_in0[m][k];
+        }
+    }
+    for (int k = 0; k < layer[1][1]; k++) {
+        for (int n = 0; n < layer[1][2]; n++) {
+            bomapped_layer1_in1[k+n*layer[1][1]]=layer1_in1[k][n];
+        }
+    }
+
+    //layer2
+    for (int m = 0; m < layer[2][0]; m++) {
+        for (int k = 0; k < layer[2][1]; k++) {
+            bomapped_layer2_in0[m+k*layer[2][0]]=layer2_in0[m][k];
+        }
+    }
+    for (int k = 0; k < layer[2][1]; k++) {
+        for (int n = 0; n < layer[2][2]; n++) {
+            bomapped_layer2_in1[k+n*layer[2][1]]=layer2_in1[k][n];
+        }
+    }
+
+    //layer3
+    for (int m = 0; m < layer[3][0]; m++) {
+        for (int k = 0; k < layer[3][1]; k++) {
+            bomapped_layer3_in0[m+k*layer[3][0]]=layer3_in0[m][k];
+        }
+    }
+    for (int k = 0; k < layer[3][1]; k++) {
+        for (int n = 0; n < layer[3][2]; n++) {
+            bomapped_layer3_in1[k+n*layer[3][1]]=layer3_in1[k][n];
         }
     }
     
     
 
-    // sync input memory
-    xrtBOSync(in_bohdl0, XCL_BO_SYNC_BO_TO_DEVICE , sizeIn1* sizeof(float),0);
-    xrtBOSync(in_bohdl1, XCL_BO_SYNC_BO_TO_DEVICE , sizeIn2* sizeof(float),0);
-    
-    //Allocate output buffer
-    float *out_bomapped; 
-    xrtBufferHandle out_bohdl; 
+    ////////////////////////////// Input Sync//////////////////////////////
+    //layer0
+    xrtBOSync(bohdl_layer0_in0, XCL_BO_SYNC_BO_TO_DEVICE , (layer[0][0]*layer[0][1])* sizeof(float),0);
+    xrtBOSync(bohdl_layer0_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[0][1]*layer[0][2])* sizeof(float),0);
 
-    out_bohdl = xrtBOAlloc(dhdl, sizeOut* sizeof(float), 0, 0);
-    out_bomapped = reinterpret_cast<float*>(xrtBOMap(out_bohdl));
+    //layer1
+    xrtBOSync(bohdl_layer1_in0, XCL_BO_SYNC_BO_TO_DEVICE , (layer[1][0]*layer[1][1])* sizeof(float),0);
+    xrtBOSync(bohdl_layer1_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[1][1]*layer[1][2])* sizeof(float),0);
+
+    //layer2
+    xrtBOSync(bohdl_layer2_in0, XCL_BO_SYNC_BO_TO_DEVICE , (layer[2][0]*layer[2][1])* sizeof(float),0);
+    xrtBOSync(bohdl_layer2_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[2][1]*layer[2][2])* sizeof(float),0);
+
+    //layer3
+    xrtBOSync(bohdl_layer3_in0, XCL_BO_SYNC_BO_TO_DEVICE , (layer[3][0]*layer[3][1])* sizeof(float),0);
+    xrtBOSync(bohdl_layer3_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[3][1]*layer[3][2])* sizeof(float),0);
+
+    ////////////////////////////// Output handler//////////////////////////////
+    //layer0
+    xrtBufferHandle bohdl_layer0_out = xrtBOAlloc(dhdl, (layer[0][0]*layer[0][2]) * sizeof(float), 0, 0);
+    auto bomapped_layer0_out = reinterpret_cast<float*>(xrtBOMap(bohdl_layer0_out));
+
+    //layer1
+    xrtBufferHandle bohdl_layer1_out = xrtBOAlloc(dhdl, (layer[1][0]*layer[1][2]) * sizeof(float), 0, 0);
+    auto bomapped_layer1_out = reinterpret_cast<float*>(xrtBOMap(bohdl_layer1_out));
+
+    //layer2
+    xrtBufferHandle bohdl_layer2_out = xrtBOAlloc(dhdl, (layer[2][0]*layer[2][2]) * sizeof(float), 0, 0);
+    auto bomapped_layer2_out = reinterpret_cast<float*>(xrtBOMap(bohdl_layer2_out));
+
+    //layer3
+    xrtBufferHandle bohdl_layer3_out = xrtBOAlloc(dhdl, (layer[3][0]*layer[3][2]) * sizeof(float), 0, 0);
+    auto bomapped_layer3_out = reinterpret_cast<float*>(xrtBOMap(bohdl_layer3_out));
     
     myGraph.init();
                               
@@ -214,13 +304,17 @@ int main(int argc, char** argv) {
     std::cout << "Kernel run\n";
     xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "dma");
     xrtRunHandle dma_rhdl;
-    //profile aie mm 
-    double kernel_time_in_sec = 0;
-    std::chrono::duration<double> kernel_time(0);
-    auto kernel_start = std::chrono::high_resolution_clock::now();
+    std::vector<double>kernel_time_in_sec(NUM_LARYER,0.0);
+    
+    std::chrono::duration<double> kernel_time0(0);
+    std::chrono::duration<double> kernel_time1(0);
+    std::chrono::duration<double> kernel_time2(0);
+    std::chrono::duration<double> kernel_time3(0);
+
     for (int i=0;i<iter;i++){
-    // start input kernels run handles
-    dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,TX,TY,TZ,
+    
+        auto kernel_start0 = std::chrono::high_resolution_clock::now();
+        dma_rhdl = xrtKernelRun(dma_khdl, bohdl_layer0_in0, bohdl_layer0_in1,bohdl_layer0_out,(layer[0][0]/(M_acc)),(layer[0][1]/K_acc),(layer[0][2]/N_acc),
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
@@ -242,21 +336,142 @@ int main(int argc, char** argv) {
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr);
         xrtRunWait(dma_rhdl);
+        auto kernel_end0 = std::chrono::high_resolution_clock::now();
+        kernel_time0 = std::chrono::duration<double>(kernel_end0 - kernel_start0);
+        kernel_time_in_sec[0] += kernel_time0.count();
+
+        auto kernel_start1 = std::chrono::high_resolution_clock::now();
+        dma_rhdl = xrtKernelRun(dma_khdl, bohdl_layer1_in0, bohdl_layer1_in1,bohdl_layer1_out,(layer[1][0]/(M_acc)),(layer[1][1]/K_acc),(layer[1][2]/N_acc),
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr);
+        xrtRunWait(dma_rhdl);
+        auto kernel_end1 = std::chrono::high_resolution_clock::now();
+        kernel_time1 = std::chrono::duration<double>(kernel_end1 - kernel_start1);
+        kernel_time_in_sec[1] += kernel_time1.count();
+
+        auto kernel_start2 = std::chrono::high_resolution_clock::now();
+        dma_rhdl = xrtKernelRun(dma_khdl, bohdl_layer2_in0, bohdl_layer2_in1,bohdl_layer2_out,(layer[2][0]/(M_acc)),(layer[2][1]/K_acc),(layer[2][2]/N_acc),
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr);
+        xrtRunWait(dma_rhdl);
+        auto kernel_end2 = std::chrono::high_resolution_clock::now();
+        kernel_time2 = std::chrono::duration<double>(kernel_end2 - kernel_start2);
+        kernel_time_in_sec[2] += kernel_time2.count();
+
+        auto kernel_start3 = std::chrono::high_resolution_clock::now();
+        dma_rhdl = xrtKernelRun(dma_khdl, bohdl_layer3_in0, bohdl_layer3_in1,bohdl_layer3_out,(layer[3][0]/(M_acc)),(layer[3][1]/K_acc),(layer[3][2]/N_acc),
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr);
+        xrtRunWait(dma_rhdl);
+        auto kernel_end3 = std::chrono::high_resolution_clock::now();
+        kernel_time3 = std::chrono::duration<double>(kernel_end3 - kernel_start3);
+        kernel_time_in_sec[3] += kernel_time3.count();
+
+    }
+
+    std::vector<double>TOPS(NUM_LARYER,0.0);
+    std::vector<double>OPS(NUM_LARYER,0.0);
+    
+    for (int i=0;i<NUM_LARYER;i++){
+        OPS[i]=(double)layer_in[i][0]*(double)layer_in[i][1]*(double)layer_in[i][2]*(double)layer_in[i][3]*2*(1e-9);
+    }
+
+    for (int i=0;i<NUM_LARYER;i++){
+        std::cout << "The Ops of layer" << i <<" is : " << OPS[i] << "GOP" << std::endl;
+    }
+    
+    for (int i=0;i<NUM_LARYER;i++){
+        kernel_time_in_sec[i]=kernel_time_in_sec[i]*(double)layer_in[i][3];
+    }
+
+    for (int i=0;i<NUM_LARYER;i++){
+        TOPS[i]=OPS[i]*iter/kernel_time_in_sec[i];
+    }
+
+    
+
+    double TOPS_total=0;
+    for (int i=0;i<NUM_LARYER;i++){
+        TOPS_total+=OPS[i];
+    }
+
+    double Time_total=0;
+    for (int i=0;i<NUM_LARYER;i++){
+        Time_total+=kernel_time_in_sec[i];
     }
  
-    auto kernel_end = std::chrono::high_resolution_clock::now();
-    kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
-    kernel_time_in_sec = kernel_time.count();
-    double TOPS = (double)(M1 * K1) * (double) (N1 * 2 *iter* 1e-9) / kernel_time_in_sec;
+    double TOPS_Overall= (TOPS_total)*iter/Time_total;
     std::cout << std::endl;
     std::cout << std::endl;
-    std::cout  << std::endl;
-    std::cout << "MM Size:"<< M1 << "*" << K1 << "*" << N1 << ", Total time is: "<< kernel_time_in_sec <<"s, TOPS = " << TOPS << " GOPS/s" << std::endl;
+    std::cout << "Total time is: "<< Time_total <<"s, TOPS_Overall = " << TOPS_Overall << " GOPS/s" << std::endl;
+
+    for (int i=0;i<NUM_LARYER;i++){
+        std::cout << "The time of each layer" << i <<" is : " << kernel_time_in_sec[i] <<"s, TOPS_ACC" << i <<" = " << TOPS[i] << " GOPS/s" << std::endl;
+    }
+    
     std::cout << std::endl;
     std::cout << std::endl;
 
+
     // sync output memory
-    xrtBOSync(out_bohdl, XCL_BO_SYNC_BO_FROM_DEVICE , sizeOut* sizeof(float),/*OFFSET=*/ 0);
+    xrtBOSync(bohdl_layer0_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[0][0]*layer[0][2])* sizeof(float),/*OFFSET=*/ 0);
+    xrtBOSync(bohdl_layer1_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[1][0]*layer[1][2])* sizeof(float),/*OFFSET=*/ 0);
+    xrtBOSync(bohdl_layer2_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[2][0]*layer[2][2])* sizeof(float),/*OFFSET=*/ 0);
+    xrtBOSync(bohdl_layer3_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[3][0]*layer[3][2])* sizeof(float),/*OFFSET=*/ 0);
         
     xrtRunClose(dma_rhdl);
     xrtKernelClose(dma_khdl);
@@ -267,49 +482,98 @@ int main(int argc, char** argv) {
     ////////////////////////////////////////////
 
     if (verify)
+
     {
         float sum = 0;
-        for(int z=0;z<Lar_Z;z++){
-            for (int c=0; c<C; c++){
-                for (int w2_host=0; w2_host<W2; w2_host++){
-                    for (int x=0; x<Lar_X; x++){
-                        for (int a=0; a<A; a++){
-                            for (int h1_host=0; h1_host<H1; h1_host++){
-                                sum=0;
-                                for (int y=0; y<Lar_Y; y++){
-                                    for (int b=0; b < B; b++) {
-                                        for (int w1_host=0; w1_host <W1 ; w1_host++) {
-                                            sum=sum+DataInput0[x][y][a][b][w1_host+h1_host*W1]*DataInput1[z][y][b][c][w1_host*W2+w2_host];
-                                        }
-                                    }
-                                }
-                                golden[z][x][a][c][w2_host+h1_host*W2]=sum;
-                            }
-                        }
-                    }
+        for (int m = 0; m < layer[0][0]; m++) {
+            for (int n = 0; n < layer[0][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[0][1]; k++) {
+                    sum=sum+layer0_in0[m][k]*layer0_in1[k][n];
                 }
+                layer0_golden[m][n]=sum;
             }
         }
 
-        int errorCount = 0; 
-        for(int p=0;p<TX;p++){
-            for(int z=0;z<Lar_Z;z++){
-                for (int c=0; c<C; c++){
-                    for (int w2_host=0; w2_host<W2; w2_host++){
-                        for (int x=0; x<X; x++){
-                            for (int a=0; a<A; a++){
-                                for (int h1_host=0; h1_host<H1; h1_host++){
-                                    if(abs((float)(out_bomapped[h1_host+a*H1+x*H1*A+w2_host*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X+p*Lar_Z*C*OUT_SIZE*A*X])-golden[z][x+p*X][a][c][h1_host*W2+w2_host])>=1e-3){
-                                        printf("Error found out_bomapped[%d]!=golden[%d][%d][%d][%d][%d], %f!=%f \n", h1_host+a*H1+x*H1*A+w2_host*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X+p*Lar_Z*C*OUT_SIZE*A*X,z,x+p*X,a,c,h1_host*W2+w2_host,(float)out_bomapped[h1_host+a*H1+x*H1*A+w2_host*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X+p*Lar_Z*C*OUT_SIZE*A*X], golden[z][x+p*X][a][c][h1_host*W2+w2_host]);
-                                        errorCount++;
-                                    }
-                                }
-                            }
-                        }
-                    }
+        int errorCount = 0;
+        for (int m = 0; m < layer[0][0]; m++) {
+            for (int n = 0; n < layer[0][2]; n++) {
+                if(abs((float)(bomapped_layer0_out[m+n*layer[0][0]])-layer0_golden[m][n])>=1e-3){
+                    errorCount++;
                 }
             }
         }
+        if (!errorCount)
+            printf("Layer0 Passed\n");
+        else
+            printf("Layer0 Failed\n");
+
+        for (int m = 0; m < layer[1][0]; m++) {
+            for (int n = 0; n < layer[1][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[1][1]; k++) {
+                    sum=sum+layer1_in0[m][k]*layer1_in1[k][n];
+                }
+                layer1_golden[m][n]=sum;
+            }
+        }
+
+        for (int m = 0; m < layer[1][0]; m++) {
+            for (int n = 0; n < layer[1][2]; n++) {
+                if(abs((float)(bomapped_layer1_out[m+n*layer[1][0]])-layer1_golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
+        if (!errorCount)
+            printf("Layer1 Passed\n");
+        else
+            printf("Layer1 Failed\n");
+
+        for (int m = 0; m < layer[2][0]; m++) {
+            for (int n = 0; n < layer[2][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[2][1]; k++) {
+                    sum=sum+layer2_in0[m][k]*layer2_in1[k][n];
+                }
+                layer2_golden[m][n]=sum;
+            }
+        }
+
+        for (int m = 0; m < layer[2][0]; m++) {
+            for (int n = 0; n < layer[2][2]; n++) {
+                if(abs((float)(bomapped_layer2_out[m+n*layer[2][0]])-layer2_golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
+        if (!errorCount)
+            printf("Layer2 Passed\n");
+        else
+            printf("Layer2 Failed\n");
+
+        for (int m = 0; m < layer[3][0]; m++) {
+            for (int n = 0; n < layer[3][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[3][1]; k++) {
+                    sum=sum+layer3_in0[m][k]*layer3_in1[k][n];
+                }
+                layer3_golden[m][n]=sum;
+            }
+        }
+
+         for (int m = 0; m < layer[3][0]; m++) {
+            for (int n = 0; n < layer[3][2]; n++) {
+                if(abs((float)(bomapped_layer3_out[m+n*layer[3][0]])-layer3_golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
+        if (!errorCount)
+            printf("Layer3 Passed\n");
+        else
+            printf("Layer3 Failed\n");
+        
         if (errorCount)
             printf("Test failed with %d errors\n", errorCount);
         else
@@ -322,9 +586,22 @@ int main(int argc, char** argv) {
 
     std::cout << "Releasing remaining XRT objects...\n";
     
-    xrtBOFree(in_bohdl0);
-    xrtBOFree(in_bohdl1);
-    xrtBOFree(out_bohdl);
+    xrtBOFree(bohdl_layer0_in0);
+    xrtBOFree(bohdl_layer0_in1);
+    xrtBOFree(bohdl_layer0_out);
+
+    xrtBOFree(bohdl_layer1_in0);
+    xrtBOFree(bohdl_layer1_in1);
+    xrtBOFree(bohdl_layer1_out);
+
+    xrtBOFree(bohdl_layer2_in0);
+    xrtBOFree(bohdl_layer2_in1);
+    xrtBOFree(bohdl_layer2_out);
+
+    xrtBOFree(bohdl_layer3_in0);
+    xrtBOFree(bohdl_layer3_in1);
+    xrtBOFree(bohdl_layer3_out);
+
     xrtDeviceClose(dhdl);
     return 0;
 }
