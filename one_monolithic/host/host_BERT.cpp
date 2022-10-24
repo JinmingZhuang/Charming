@@ -70,29 +70,6 @@ const int NUM_LARYER=8;
 const int D0=6;
 const int D1=16;
 const int batch_size=D0*D1;
-// const int layer_in[NUM_LARYER][4] =
-// {
-//     {3072,1024,1024,1},
-//     {3072,1024,1024,1},
-//     {3072,1024,1024,1},
-//     {3072,1024,1024,1},
-//     {3072,1024,4096,1},
-//     {3072,4096,1024,1},
-//     {512,512,64,batch_size},
-//     {512,64,512,batch_size}
-// };
-
-// const int layer[NUM_LARYER][4] =
-// {
-//     {3072,1024,1024,1},
-//     {3072,1024,1024,1},
-//     {3072,1024,1024,1},
-//     {3072,1024,1024,1},
-//     {3072,1024,4096,1},
-//     {3072,4096,1024,1},
-//     {1536,512,1024,batch_size},
-//     {1536,128,1024,batch_size}
-// };
 
 const int layer_in[NUM_LARYER][4] =
 {
@@ -996,11 +973,6 @@ int main(int argc, char** argv) {
             printf("Layer7 Passed\n");
         else
             printf("Layer7 Failed\n");
-        
-        // if (errorCount)
-        //     printf("Test failed with %d errors\n", errorCount);
-        // else
-        //     printf("TEST PASSED\n");
     }
 
     //////////////////////////////////////////
