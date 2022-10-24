@@ -22,9 +22,9 @@ XSA	 = vck190_aie_base_graph_${TARGET}.xsa
 XPFM	 = vck190_xpfm
 HOST_EXE = hostexe
 HOST_SRCS := ./host/host.cpp
-HOST_EXE_BERT = hostexe_bert
-HOST_SRCS_BERT := ./host/host_BERT.cpp
+SYSROOT = /share/Jinming/Versal/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
+EDGE_COMMON_SW=/share/Jinming/xilinx-versal-common-v2021.1
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
 
@@ -32,12 +32,11 @@ FINAL_XCLBIN=mm_${TARGET}.xclbin
 TEMP_DIR := ./_x.$(TARGET).xilinx_vck190_base_202110_1
 BUILD_DIR := ./build_dir.$(TARGET).xilinx_vck190_base_202110_1
 
-KERNEL_XO := $(TEMP_DIR)/dma.xo
+KERNEL_XO := $(TEMP_DIR)/dma_large.xo
 GRAPH    = aie/mm_top.cpp
 LIBADF  = libadf.a
 AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=4096 -include="./aie" -workdir=./Work ${GRAPH} #-v
 AIE_SIM_CMD = aiesimulator --pkg-dir=./Work --dump-vcd foo --profile
-AIE_HOSTEXE = ./aie_control_xrt.o
 EMU_CMD = ./launch_hw_emu.sh
 PACKAGE_OUT = ./package.$(TARGET)
 RM = rm -f
@@ -120,25 +119,26 @@ guard-SDKTARGETSYSROOT:
 	$(call check_defined, SDKTARGETSYSROOT, Run: xilinx-versal-common-v2021.1/environment-setup-cortexa72-cortexa53-xilinx-linux)
 
 ###
-
-all: aie build host package
+print:
+	@echo ${TEMP_DIR}
+all: build host package
 run: all run_hw_emu
 sd_card: all
 
-aie: guard-PLATFORM_REPO_PATHS ${LIBADF}
-${LIBADF}: ${GRAPH}
-	${AIE_CMPL_CMD}
-	@echo "COMPLETE: aie success."
+# aie: guard-PLATFORM_REPO_PATHS ${LIBADF}
+# ${LIBADF}: ${GRAPH}
+# 	${AIE_CMPL_CMD}
+# 	@echo "COMPLETE: aie success."
 
-aiesim: ${LIBADF}
-	${AIE_SIM_CMD}
-	@echo "COMPLETE: aiesim success."
+# aiesim: ${LIBADF}
+# 	${AIE_SIM_CMD}
+# 	@echo "COMPLETE: aiesim success."
 
 kernels:$(KERNEL_XO)
-$(TEMP_DIR)/dma.xo: kernel/dma.cpp kernel/packet_sender.hpp
+$(TEMP_DIR)/dma_large.xo: kernel_large/dma_large.cpp kernel_large/packet_sender_large.hpp
 	mkdir -p $(TEMP_DIR)
-	$(VCC) $(VPP_XO_FLAGS) -k dma --hls.clock 300000000:dma $< -o $@ | tee $(TEMP_DIR)/dma.log
-	@echo "### ***** dma compilation done! *****"
+	$(VCC) $(VPP_XO_FLAGS) -k dma_large --hls.clock 300000000:dma_large $< -o $@ | tee $(TEMP_DIR)/dma_large.log
+	@echo "### ***** dma_large compilation done! *****"
 
 
 build: $(BINARY_CONTAINERS)
@@ -146,21 +146,13 @@ $(BUILD_DIR)/${XCLBIN}: ${KERNEL_XO} ${LIBADF}
 	mkdir -p $(BUILD_DIR)
 	v++ -l $(CLFLAGS) --temp_dir $(BUILD_DIR) $(LDCLFLAGS) -o'$@' $(+) | tee $(BUILD_DIR)/hpc_xclbin.log
 
-aiehost: $(AIE_HOSTEXE)
-$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
-	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
 
-host: guard-CXX guard-SDKTARGETSYSROOT ${HOST_EXE} 
-${HOST_EXE}: $(AIE_HOSTEXE)
+host: guard-CXX guard-SDKTARGETSYSROOT ${HOST_EXE}
+${HOST_EXE}:
+	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./Work/ps/c_rts/aie_control_xrt.cpp
 	$(CXX) $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
-	$(CXX) $(AIE_HOSTEXE) main.o $(GCC_LIB) -o $(HOST_EXE)
+	$(CXX) *.o $(GCC_LIB) -o $(HOST_EXE)
 	@echo "COMPLETE: Host application created."
-
-berthost: ${HOST_EXE_BERT}
-${HOST_EXE_BERT}: $(AIE_HOSTEXE)
-	$(CXX) $(HOST_SRCS_BERT) $(GCC_FLAGS) $(GCC_INCLUDES) -o bert.o
-	$(CXX) $(AIE_HOSTEXE) bert.o $(GCC_LIB) -o ${HOST_EXE_BERT}
-	@echo "COMPLETE: Host_BERT application created."
 
 ECHO:= @echo
 gen_run_app:
