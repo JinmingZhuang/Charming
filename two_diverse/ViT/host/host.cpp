@@ -106,23 +106,15 @@ const int layer[NUM_LARYER][4] =
     {64,64,64,768}
 };
 
-// const int layer[NUM_LARYER][4] =
-// {
-//     {1024,256,1024,1},
-//     {1024,256,1024,1},
-//     {1024,256,1024,1},
-//     {1024,256,1024,1},
-//     {1024,256,1024,1},
-//     {64,64,64,1},
-//     {64,64,64,1}
-// };
-
 int main(int argc, char** argv) {
-    int iter=500;
+    int iter=500,verify=0;
     char* xclbinFilename;
-    if(argc == 3) {
+    if(argc == 4) {
         xclbinFilename = argv[1];
         if (sscanf (argv[2], "%i", &iter) != 1) {
+            fprintf(stderr, "error - not an integer");
+        }
+        if (sscanf (argv[3], "%i", &verify) != 1) {
             fprintf(stderr, "error - not an integer");
         }
     }
@@ -706,174 +698,187 @@ int main(int argc, char** argv) {
     //// Comparing the execution data to the golden_large data
     ////////////////////////////////////////////
     
-    
+    if (verify)
 
-    // {
-    //     float sum = 0;
-    //     for (int m = 0; m < layer[0][0]; m++) {
-    //         for (int n = 0; n < layer[0][2]; n++) {
-    //             sum =0;
-    //             for (int k = 0; k < layer[0][1]; k++) {
-    //                 sum=sum+layer0_in0[m][k]*layer0_in1[k][n];
-    //             }
-    //             layer0_golden[m][n]=sum;
-    //         }
-    //     }
+    {
+        float sum = 0;
+        for (int m = 0; m < layer[0][0]; m++) {
+            for (int n = 0; n < layer[0][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[0][1]; k++) {
+                    sum=sum+layer0_in0[m][k]*layer0_in1[k][n];
+                }
+                layer0_golden[m][n]=sum;
+            }
+        }
 
-    //     for (int m = 0; m < layer[1][0]; m++) {
-    //         for (int n = 0; n < layer[1][2]; n++) {
-    //             sum =0;
-    //             for (int k = 0; k < layer[1][1]; k++) {
-    //                 sum=sum+layer1_in0[m][k]*layer1_in1[k][n];
-    //             }
-    //             layer1_golden[m][n]=sum;
-    //         }
-    //     }
+        int errorCount0 = 0;
+        for (int m = 0; m < layer[0][0]; m++) {
+            for (int n = 0; n < layer[0][2]; n++) {
+                if(abs((float)(bomapped_layer0_out[m+n*layer[0][0]])-layer0_golden[m][n])>=1e-3){
+                    errorCount0++;
+                }
+            }
+        }
+        if (!errorCount0)
+            printf("Layer0 Passed\n");
+        else
+            printf("Layer0 Failed\n");
 
-    //     for (int m = 0; m < layer[2][0]; m++) {
-    //         for (int n = 0; n < layer[2][2]; n++) {
-    //             sum =0;
-    //             for (int k = 0; k < layer[2][1]; k++) {
-    //                 sum=sum+layer2_in0[m][k]*layer2_in1[k][n];
-    //             }
-    //             layer2_golden[m][n]=sum;
-    //         }
-    //     }
+        int errorCount1 = 0;
+        for (int m = 0; m < layer[1][0]; m++) {
+            for (int n = 0; n < layer[1][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[1][1]; k++) {
+                    sum=sum+layer1_in0[m][k]*layer1_in1[k][n];
+                }
+                layer1_golden[m][n]=sum;
+            }
+        }
 
-    //     for (int m = 0; m < layer[3][0]; m++) {
-    //         for (int n = 0; n < layer[3][2]; n++) {
-    //             sum =0;
-    //             for (int k = 0; k < layer[3][1]; k++) {
-    //                 sum=sum+layer3_in0[m][k]*layer3_in1[k][n];
-    //             }
-    //             layer3_golden[m][n]=sum;
-    //         }
-    //     }
+        for (int m = 0; m < layer[1][0]; m++) {
+            for (int n = 0; n < layer[1][2]; n++) {
+                if(abs((float)(bomapped_layer1_out[m+n*layer[1][0]])-layer1_golden[m][n])>=1e-3){
+                    errorCount1++;
+                }
+            }
+        }
+        if (!errorCount1)
+            printf("Layer1 Passed\n");
+        else
+            printf("Layer1 Failed\n");
 
-    //     for (int m = 0; m < layer[4][0]; m++) {
-    //         for (int n = 0; n < layer[4][2]; n++) {
-    //             sum =0;
-    //             for (int k = 0; k < layer[4][1]; k++) {
-    //                 sum=sum+layer4_in0[m][k]*layer4_in1[k][n];
-    //             }
-    //             layer4_golden[m][n]=sum;
-    //         }
-    //     }
+        int errorCount2 = 0;
+        for (int m = 0; m < layer[2][0]; m++) {
+            for (int n = 0; n < layer[2][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[2][1]; k++) {
+                    sum=sum+layer2_in0[m][k]*layer2_in1[k][n];
+                }
+                layer2_golden[m][n]=sum;
+            }
+        }
 
+        for (int m = 0; m < layer[2][0]; m++) {
+            for (int n = 0; n < layer[2][2]; n++) {
+                if(abs((float)(bomapped_layer2_out[m+n*layer[2][0]])-layer2_golden[m][n])>=1e-3){
+                    errorCount2++;
+                }
+            }
+        }
+        if (!errorCount2)
+            printf("Layer2 Passed\n");
+        else
+            printf("Layer2 Failed\n");
 
-    //     for(int dot_x=0;dot_x<D0;dot_x++){
-    //         for(int dot_y=0;dot_y<D1;dot_y++){
-    //             for (int m = 0; m < layer[5][0]; m++) { 
-    //                 for (int n = 0; n < layer[5][2]; n++) {
-    //                     sum =0;
-    //                     for (int k = 0; k < layer[5][1]; k++) {
-    //                         sum=sum+layer5_in0[dot_x][dot_y][m][k]*layer5_in1[dot_x][dot_y][k][n];
-    //                     }
-    //                     layer5_golden[dot_x][dot_y][m][n]=sum;
-    //                 }
-    //             }
-    //         }
-    //     }
+        int errorCount3 = 0;
+        for (int m = 0; m < layer[3][0]; m++) {
+            for (int n = 0; n < layer[3][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[3][1]; k++) {
+                    sum=sum+layer3_in0[m][k]*layer3_in1[k][n];
+                }
+                layer3_golden[m][n]=sum;
+            }
+        }
 
-    //     for(int dot_x=0;dot_x<D0;dot_x++){
-    //         for(int dot_y=0;dot_y<D1;dot_y++){
-    //             for (int m = 0; m < layer[6][0]; m++) {
-    //                 for (int n = 0; n < layer[6][2]; n++) {
-    //                     sum =0;
-    //                     for (int k = 0; k < layer[6][1]; k++) {
-    //                         sum=sum+layer6_in0[dot_x][dot_y][m][k]*layer6_in1[dot_x][dot_y][k][n];
-    //                     }
-    //                     layer6_golden[dot_x][dot_y][m][n]=sum;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    // int errorCount = 0;
-    // {   
+         for (int m = 0; m < layer[3][0]; m++) {
+            for (int n = 0; n < layer[3][2]; n++) {
+                if(abs((float)(bomapped_layer3_out[m+n*layer[3][0]])-layer3_golden[m][n])>=1e-3){
+                    errorCount3++;
+                }
+            }
+        }
+        if (!errorCount3)
+            printf("Layer3 Passed\n");
+        else
+            printf("Layer3 Failed\n");
         
-    //     for (int m = 0; m < layer[0][0]; m++) {
-    //         for (int n = 0; n < layer[0][2]; n++) {
-    //             if(abs((float)(bomapped_layer0_out[m+n*layer[0][0]])-layer0_golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
-        
-    //     printf("Test layer0 finish %d errors\n", errorCount);
+        int errorCount4 = 0;
+        for (int m = 0; m < layer[4][0]; m++) {
+            for (int n = 0; n < layer[4][2]; n++) {
+                sum =0;
+                for (int k = 0; k < layer[4][1]; k++) {
+                    sum=sum+layer4_in0[m][k]*layer4_in1[k][n];
+                }
+                layer4_golden[m][n]=sum;
+            }
+        }
 
-    //     for (int m = 0; m < layer[1][0]; m++) {
-    //         for (int n = 0; n < layer[1][2]; n++) {
-    //             if(abs((float)(bomapped_layer1_out[m+n*layer[1][0]])-layer1_golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
-        
-    //     printf("Test layer1 finish %d errors\n", errorCount);
+        for (int m = 0; m < layer[4][0]; m++) {
+            for (int n = 0; n < layer[4][2]; n++) {
+                if(abs((float)(bomapped_layer4_out[m+n*layer[4][0]])-layer4_golden[m][n])>=1e-3){
+                    errorCount4++;
+                }
+            }
+        }
+        if (!errorCount4)
+            printf("Layer4 Passed\n");
+        else
+            printf("Layer4 Failed\n");
 
-    //     for (int m = 0; m < layer[2][0]; m++) {
-    //         for (int n = 0; n < layer[2][2]; n++) {
-    //             if(abs((float)(bomapped_layer2_out[m+n*layer[2][0]])-layer2_golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        for(int dot_x=0;dot_x<D0;dot_x++){
+            for(int dot_y=0;dot_y<D1;dot_y++){
+                for (int m = 0; m < layer[5][0]; m++) { 
+                    for (int n = 0; n < layer[5][2]; n++) {
+                        sum =0;
+                        for (int k = 0; k < layer[5][1]; k++) {
+                            sum=sum+layer5_in0[dot_x][dot_y][m][k]*layer5_in1[dot_x][dot_y][k][n];
+                        }
+                        layer5_golden[dot_x][dot_y][m][n]=sum;
+                    }
+                }
+            }
+        }
 
-    //     printf("Test layer2 finish %d errors\n", errorCount);
+        int errorCount5 = 0;
+        for(int dot_x=0;dot_x<D0;dot_x++){
+            for(int dot_y=0;dot_y<D1;dot_y++){  
+                for (int m = 0; m < layer[5][0]; m++) {
+                    for (int n = 0; n < layer[5][2]; n++) {
+                        if(abs((float)(bomapped_layer5_out[m+n*layer[5][0]*D0+dot_y*layer[5][2]*layer[5][0]*D0+dot_x*layer[5][0]])-layer5_golden[dot_x][dot_y][m][n])>=1e-3){
+                            errorCount5++;
+                        }
+                    }
+                }
+            }
+        }
+        if (!errorCount5)
+            printf("Layer5 Passed\n");
+        else
+            printf("Layer5 Failed\n");
 
-    //     for (int m = 0; m < layer[3][0]; m++) {
-    //         for (int n = 0; n < layer[3][2]; n++) {
-    //             if(abs((float)(bomapped_layer3_out[m+n*layer[3][0]])-layer3_golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        int errorCount6 = 0;
+        for(int dot_x=0;dot_x<D0;dot_x++){
+            for(int dot_y=0;dot_y<D1;dot_y++){
+                for (int m = 0; m < layer[6][0]; m++) {
+                    for (int n = 0; n < layer[6][2]; n++) {
+                        sum =0;
+                        for (int k = 0; k < layer[6][1]; k++) {
+                            sum=sum+layer6_in0[dot_x][dot_y][m][k]*layer6_in1[dot_x][dot_y][k][n];
+                        }
+                        layer6_golden[dot_x][dot_y][m][n]=sum;
+                    }
+                }
+            }
+        }
 
-    //     printf("Test layer3 finish %d errors\n", errorCount);
-
-    //     for (int m = 0; m < layer[4][0]; m++) {
-    //         for (int n = 0; n < layer[4][2]; n++) {
-    //             if(abs((float)(bomapped_layer4_out[m+n*layer[4][0]])-layer4_golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
-
-    //     printf("Test layer4 finish %d errors\n", errorCount);
-
-    //     for(int dot_x=0;dot_x<D0;dot_x++){
-    //         for(int dot_y=0;dot_y<D1;dot_y++){  
-    //             for (int m = 0; m < layer[5][0]; m++) {
-    //                 for (int n = 0; n < layer[5][2]; n++) {
-    //                     if(abs((float)(bomapped_layer5_out[m+n*layer[5][0]*D0+dot_y*layer[5][2]*layer[5][0]*D0+dot_x*layer[5][0]])-layer5_golden[dot_x][dot_y][m][n])>=1e-3){
-    //                         errorCount++;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     printf("Test layer5 finish %d errors\n", errorCount);
-
-    //     for(int dot_x=0;dot_x<D0;dot_x++){
-    //         for(int dot_y=0;dot_y<D1;dot_y++){  
-    //             for (int m = 0; m < layer[6][0]; m++) {
-    //                 for (int n = 0; n < layer[6][2]; n++) {
-    //                     if(abs((float)(bomapped_layer6_out[m+n*layer[6][0]*D0+dot_y*layer[6][2]*layer[6][0]*D0+dot_x*layer[6][0]])-layer6_golden[dot_x][dot_y][m][n])>=1e-3){
-    //                         errorCount++;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-        
-    //     if (errorCount)
-    //         printf("Test failed with %d errors\n", errorCount);
-    //     else
-    //         printf("TEST PASSED\n");
-    // }
+        for(int dot_x=0;dot_x<D0;dot_x++){
+            for(int dot_y=0;dot_y<D1;dot_y++){  
+                for (int m = 0; m < layer[6][0]; m++) {
+                    for (int n = 0; n < layer[6][2]; n++) {
+                        if(abs((float)(bomapped_layer6_out[m+n*layer[6][0]*D0+dot_y*layer[6][2]*layer[6][0]*D0+dot_x*layer[6][0]])-layer6_golden[dot_x][dot_y][m][n])>=1e-3){
+                            errorCount6++;
+                        }
+                    }
+                }
+            }
+        }
+        if (!errorCount6)
+            printf("Layer6 Passed\n");
+        else
+            printf("Layer6 Failed\n");
+    }
 
     //////////////////////////////////////////
     // clean up XRT
