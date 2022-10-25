@@ -38,7 +38,7 @@ GRAPH    = aie/mm_top.cpp
 LIBADF  = libadf.a
 AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=4096 -include="./aie" -workdir=./Work ${GRAPH} #-v
 AIE_SIM_CMD = aiesimulator --pkg-dir=./Work --dump-vcd foo --profile
-AIE_HOSTEXE = ./aie_control_xrt.o
+AIE_HOSTEXE = aie_control_xrt.o
 ifeq ($(PRE_BUILT),1)
 	AIE_HOSTEXE := pre_built/aie_control_xrt.o
 endif
@@ -152,8 +152,9 @@ $(BUILD_DIR)/${XCLBIN}: ${KERNEL_XO} ${LIBADF}
 	mkdir -p $(BUILD_DIR)
 	v++ -l $(CLFLAGS) --temp_dir $(BUILD_DIR) $(LDCLFLAGS) -o'$@' $(+) | tee $(BUILD_DIR)/hpc_xclbin.log
 
-ifneq ($(PRE_BUILT),1)
+
 aiehost: $(AIE_HOSTEXE)
+ifneq ($(PRE_BUILT),1)
 $(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
 	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
 endif
