@@ -86,7 +86,7 @@ ifneq ($(TARGET), hw)
 endif
 CLFLAGS += --hls.jobs 8
 CLFLAGS += --config ./conn.cfg
-CLFLAGS += --clock.defaultFreqHz 200000000
+CLFLAGS += --clock.defaultFreqHz 225000000
 
 LDCLFLAGS := --vivado.synth.jobs 8 --vivado.impl.jobs 8
 

@@ -216,6 +216,7 @@ package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host hostbert hostvit
 		--package.sd_file ${HOST_EXE_BERT} \
 		--package.sd_file ${HOST_EXE_ViT} \
 		--package.sd_file ${HOST_EXE_MLP} \
+		--package.sd_file ${HOST_EXE_NCF} \
 		${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 else
@@ -232,6 +233,7 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host hostbert hostvit hostmlp 
 		--package.sd_file ${HOST_EXE_BERT} \
 		--package.sd_file ${HOST_EXE_ViT} \
 		--package.sd_file ${HOST_EXE_MLP} \
+		--package.sd_file ${HOST_EXE_NCF} \
 		${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 endif
