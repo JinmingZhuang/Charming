@@ -576,8 +576,9 @@ int main(int argc, char** argv) {
         kernel_time4 = std::chrono::duration<double>(kernel_end4 - kernel_start4);
         kernel_time_in_sec[4] += kernel_time4.count();
 
-        auto kernel_start5 = std::chrono::high_resolution_clock::now();
-        dma_rhdl = xrtKernelRun(dma_khdl, bohdl_layer5_in0, bohdl_layer5_in1,bohdl_layer5_out,(layer[5][0]/(M_acc)),(layer[5][1]/K_acc),(layer[5][2]/N_acc),
+        for (int j=0;j<batch_size;j++){
+            auto kernel_start5 = std::chrono::high_resolution_clock::now();
+            dma_rhdl = xrtKernelRun(dma_khdl, bohdl_layer5_in0, bohdl_layer5_in1,bohdl_layer5_out,(layer[5][0]/(M_acc)),(layer[5][1]/K_acc),(layer[5][2]/N_acc),
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
@@ -594,13 +595,13 @@ int main(int argc, char** argv) {
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr);
-        xrtRunWait(dma_rhdl);
-        auto kernel_end5 = std::chrono::high_resolution_clock::now();
-        kernel_time5 = std::chrono::duration<double>(kernel_end5 - kernel_start5);
-        kernel_time_in_sec[5] += kernel_time5.count();
+            xrtRunWait(dma_rhdl);
+            auto kernel_end5 = std::chrono::high_resolution_clock::now();
+            kernel_time5 = std::chrono::duration<double>(kernel_end5 - kernel_start5);
+            kernel_time_in_sec[5] += kernel_time5.count();
 
-        auto kernel_start6 = std::chrono::high_resolution_clock::now();
-        dma_rhdl = xrtKernelRun(dma_khdl, bohdl_layer6_in0, bohdl_layer6_in1,bohdl_layer6_out,(layer[6][0]/(M_acc)),(layer[6][1]/K_acc),(layer[6][2]/N_acc),
+            auto kernel_start6 = std::chrono::high_resolution_clock::now();
+            dma_rhdl = xrtKernelRun(dma_khdl, bohdl_layer6_in0, bohdl_layer6_in1,bohdl_layer6_out,(layer[6][0]/(M_acc)),(layer[6][1]/K_acc),(layer[6][2]/N_acc),
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
@@ -617,10 +618,11 @@ int main(int argc, char** argv) {
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr);
-        xrtRunWait(dma_rhdl);
-        auto kernel_end6 = std::chrono::high_resolution_clock::now();
-        kernel_time6 = std::chrono::duration<double>(kernel_end6 - kernel_start6);
-        kernel_time_in_sec[6] += kernel_time6.count();
+            xrtRunWait(dma_rhdl);
+            auto kernel_end6 = std::chrono::high_resolution_clock::now();
+            kernel_time6 = std::chrono::duration<double>(kernel_end6 - kernel_start6);
+            kernel_time_in_sec[6] += kernel_time6.count();
+        }
 
     }
  
@@ -636,7 +638,7 @@ int main(int argc, char** argv) {
     }
     
     for (int i=0;i<NUM_LARYER;i++){
-        kernel_time_in_sec[i]=kernel_time_in_sec[i]*(double)layer_in[i][3];
+        kernel_time_in_sec[i]=kernel_time_in_sec[i];
     }
 
     for (int i=0;i<NUM_LARYER;i++){
