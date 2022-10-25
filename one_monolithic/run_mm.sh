@@ -18,7 +18,7 @@ for filename in *_result_*;
 do
 	let n=1;
 	while read line; do
-		if (( ${n} == 7 ))
+		if (( ${n} == 6 ))
 		then
 			my_str=$line;
 			echo "${filename}:${my_str}" >>Table2.log; 
@@ -26,7 +26,6 @@ do
 		let n=${n}+1;
 	done < ./$filename
 done
-rm -rf *_result_*;
 
 echo -e "\nSingle MM Kernel Test Succeed!";
 echo -e "\nPlease See On-board Results of Table2 in Table2.log ";
