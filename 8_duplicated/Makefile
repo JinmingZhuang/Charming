@@ -15,16 +15,17 @@ mkfile_dir := $(dir $(mkfile_path))
 TARGET   = hw
 MODE	 = linux
 HOST_ARCH = aarch64
-PLATFORM_REPO_PATHS=/opt/xilinx/platforms
+PRE_BUILT = 1
+PLATFORM_REPO_PATHS=/share/Jinming/vck_1024#/opt/xilinx/platforms
 PLATFORM = ${PLATFORM_REPO_PATHS}/xilinx_vck190_base_202110_1/xilinx_vck190_base_202110_1.xpfm
 XCLBIN   = vck190_aie_base_graph_${TARGET}.xclbin
 XSA	 = vck190_aie_base_graph_${TARGET}.xsa
 XPFM	 = vck190_xpfm
 HOST_EXE = hostexe
 HOST_SRCS := ./host/host.cpp
-SYSROOT = /share/Jinming/Versal/sysroots/cortexa72-cortexa53-xilinx-linux
+SYSROOT = /share/Jinming/vck_1024/images/linux/sdk/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
-EDGE_COMMON_SW=/share/Jinming/xilinx-versal-common-v2021.1
+EDGE_COMMON_SW=/share/Jinming/vck_1024/images/linux/
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
 
@@ -32,13 +33,19 @@ FINAL_XCLBIN=mm_${TARGET}.xclbin
 TEMP_DIR := ./_x.$(TARGET).xilinx_vck190_base_202110_1
 BUILD_DIR := ./build_dir.$(TARGET).xilinx_vck190_base_202110_1
 
-KERNEL_XO := $(TEMP_DIR)/dma.xo
+KERNEL_XO := $(TEMP_DIR)/dma_large.xo $(TEMP_DIR)/dma_small.xo #$(TEMP_DIR)/transpose.xilinx_vck190_base_202110_1.hw.xo $(TEMP_DIR)/reshape.xilinx_vck190_base_202110_1.hw.xo $(TEMP_DIR)/softmax.xilinx_vck190_base_202110_1.hw.xo $(TEMP_DIR)/layernorm.xilinx_vck190_base_202110_1.hw.xo
 GRAPH    = aie/mm_top.cpp
 LIBADF  = libadf.a
 AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=4096 -include="./aie" -workdir=./Work ${GRAPH} #-v
 AIE_SIM_CMD = aiesimulator --pkg-dir=./Work --dump-vcd foo --profile
+AIE_HOSTEXE = ./aie_control_xrt.o
+ifeq ($(PRE_BUILT),1)
+	AIE_HOSTEXE := pre_built/aie_control_xrt.o
+endif
 EMU_CMD = ./launch_hw_emu.sh
 PACKAGE_OUT = ./package.$(TARGET)
+PRE_BUILT_XCLBIN = ./pre_built/${XCLBIN}
+PRE_BUILT_LIBADF = ./pre_built/${LIBADF}
 RM = rm -f
 RMDIR = rm -rf
 ##########################################################################################################################################################
@@ -119,7 +126,8 @@ guard-SDKTARGETSYSROOT:
 	$(call check_defined, SDKTARGETSYSROOT, Run: xilinx-versal-common-v2021.1/environment-setup-cortexa72-cortexa53-xilinx-linux)
 
 ###
-
+print:
+	@echo ${TEMP_DIR}
 all: aie build host package
 run: all run_hw_emu
 sd_card: all
@@ -134,10 +142,13 @@ aiesim: ${LIBADF}
 	@echo "COMPLETE: aiesim success."
 
 kernels:$(KERNEL_XO)
-$(TEMP_DIR)/dma.xo: kernel/dma.cpp kernel/packet_sender.hpp
+$(TEMP_DIR)/dma_large.xo: kernel_large/dma_large.cpp kernel_large/packet_sender_large.hpp
 	mkdir -p $(TEMP_DIR)
-	$(VCC) $(VPP_XO_FLAGS) -k dma --hls.clock 300000000:dma $< -o $@ | tee $(TEMP_DIR)/dma.log
-	@echo "### ***** dma compilation done! *****"
+	$(VCC) $(VPP_XO_FLAGS) -k dma_large --hls.clock 300000000:dma_large $< -o $@ | tee $(TEMP_DIR)/dma_large.log
+	@echo "### ***** dma_large compilation done! *****"
+$(TEMP_DIR)/dma_small.xo: kernel_small/dma_small.cpp kernel_small/packet_sender_small.hpp
+	$(VCC) $(VPP_XO_FLAGS) -k dma_small --hls.clock 300000000:dma_small $< -o $@ | tee $(TEMP_DIR)/dma_small.log
+	@echo "### ***** dma_small compilation done! *****"
 
 
 build: $(BINARY_CONTAINERS)
@@ -145,36 +156,37 @@ $(BUILD_DIR)/${XCLBIN}: ${KERNEL_XO} ${LIBADF}
 	mkdir -p $(BUILD_DIR)
 	v++ -l $(CLFLAGS) --temp_dir $(BUILD_DIR) $(LDCLFLAGS) -o'$@' $(+) | tee $(BUILD_DIR)/hpc_xclbin.log
 
+aiehost: $(AIE_HOSTEXE)
+ifneq ($(PRE_BUILT),1)
+$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
+	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
+endif
 
-host: guard-CXX guard-SDKTARGETSYSROOT ${HOST_EXE}
-${HOST_EXE}:
-	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./Work/ps/c_rts/aie_control_xrt.cpp
+host: guard-CXX guard-SDKTARGETSYSROOT ${HOST_EXE} 
+${HOST_EXE}: ${AIE_HOSTEXE}
 	$(CXX) $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
-	$(CXX) *.o $(GCC_LIB) -o $(HOST_EXE)
+	$(CXX) $(AIE_HOSTEXE) main.o $(GCC_LIB) -o $(HOST_EXE)
 	@echo "COMPLETE: Host application created."
 
 ECHO:= @echo
-gen_run_app:
-ifneq ($(HOST_ARCH), x86)
-	rm -rf run_app.sh
-	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh
-	$(ECHO) 'export PATH=$$PATH:/sbin' >> run_app.sh
-	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
-	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
-endif
-	$(ECHO) 'dmesg -n 4 && echo "Hide DRM messages..."' >> run_app.sh
-	$(ECHO) './${HOST_EXE} ${FINAL_XCLBIN}' >> run_app.sh
-	$(ECHO) 'return_code=$$?' >> run_app.sh
-	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
-	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
-	$(ECHO) 'fi' >> run_app.sh
-	$(ECHO) 'echo "INFO: host run completed."' >> run_app.sh
-endif
 
-package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS package_${TARGET}
-package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host gen_run_app
+package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS unzip package_${TARGET} 
+ifeq ($(PRE_BUILT),1)	
+unzip:
+	rm -rf ./pre_built/libadf.a
+	tar -xf ./pre_built/libadf.tar.gz -C ./pre_built
+package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
+	${VCC} -p -t ${TARGET} -f ${PLATFORM} \
+		--package.out_dir $(PACKAGE_OUT) \
+		--package.rootfs ${ROOTFS} \
+		--package.kernel_image ${IMAGE} \
+		--package.boot_mode=sd \
+		--package.image_format=ext4 \
+		--package.sd_file ${HOST_EXE} \
+		${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} -o ${FINAL_XCLBIN}
+	@echo "COMPLETE: Package created."
+else
+package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host
 	${VCC} -p -t ${TARGET} -f ${PLATFORM} \
 		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs ${ROOTFS} \
@@ -182,9 +194,10 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host gen_run_app
 		--package.boot_mode=sd \
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
-		--package.sd_file run_app.sh \
-		--package.sd_file ${HOST_EXE} ${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
+		--package.sd_file ${HOST_EXE} \
+		${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
+endif
 
 run_hw_emu: launch_hw_emu.sh
 launch_hw_emu.sh: package_hw_emu
@@ -193,7 +206,7 @@ launch_hw_emu.sh: package_hw_emu
 clean:
 	-$(RMDIR) $(HOST_EXE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv *.o *.xo *.xpe *.xsa cfg qemu_dts_files emu_qemu_scripts *.db sim  #*.a  Work aie/*.ll _x*
-	-$(RMDIR)  *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe  *.log *.txt 
+	-$(RMDIR)  *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe  *.log *.txt _x
 
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
@@ -205,5 +218,7 @@ cleansim:
 	-$(RMDIR) aiesimulator_output foo.vcd ISS_RPC_SERVER_PORT
 cleantemp:
 	-$(RMDIR) ${TEMP_DIR}
+cleanhost:
+	-$(RMDIR) hostexe aie_control_xrt.o main.o 
 cleanpac:
-	-$(RMDIR) hostexe aie_control_xrt.o main.o mm_${TARGET}.xclbin mm_${TARGET}.xclbin.package_summary package.${TARGET}
+	-$(RMDIR) ${FINAL_XCLBIN} mm_${TARGET}.xclbin.package_summary package.${TARGET} ./pre_built/libadf.a
