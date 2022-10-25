@@ -1,0 +1,1990 @@
+{
+  "appId": "root",
+  "device": "xcvc1902",
+  "AIE": {
+    "ai_engine_0": {
+      "annotation": "AIE IP",
+      "logical_device": "${XILINX_VITIS_AIETOOLS}/data/devices/VC1902.json",
+      "aieshimPorts": {
+        "S00_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r0"
+          ],
+          "sdfioName": [
+            "i0_po0"
+          ]
+        },
+        "S01_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r1"
+          ],
+          "sdfioName": [
+            "i1_po0"
+          ]
+        },
+        "S02_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r2"
+          ],
+          "sdfioName": [
+            "i2_po0"
+          ]
+        },
+        "S03_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r3"
+          ],
+          "sdfioName": [
+            "i3_po0"
+          ]
+        },
+        "S04_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r4"
+          ],
+          "sdfioName": [
+            "i4_po0"
+          ]
+        },
+        "S05_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r5"
+          ],
+          "sdfioName": [
+            "i5_po0"
+          ]
+        },
+        "S06_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r6"
+          ],
+          "sdfioName": [
+            "i6_po0"
+          ]
+        },
+        "S07_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r7"
+          ],
+          "sdfioName": [
+            "i7_po0"
+          ]
+        },
+        "S08_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r8"
+          ],
+          "sdfioName": [
+            "i8_po0"
+          ]
+        },
+        "S09_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r9"
+          ],
+          "sdfioName": [
+            "i9_po0"
+          ]
+        },
+        "S10_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r10"
+          ],
+          "sdfioName": [
+            "i10_po0"
+          ]
+        },
+        "S11_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r11"
+          ],
+          "sdfioName": [
+            "i11_po0"
+          ]
+        },
+        "S12_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r12"
+          ],
+          "sdfioName": [
+            "i12_po0"
+          ]
+        },
+        "S13_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r13"
+          ],
+          "sdfioName": [
+            "i13_po0"
+          ]
+        },
+        "S14_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r14"
+          ],
+          "sdfioName": [
+            "i14_po0"
+          ]
+        },
+        "S15_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r15"
+          ],
+          "sdfioName": [
+            "i15_po0"
+          ]
+        },
+        "S16_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r16"
+          ],
+          "sdfioName": [
+            "i16_po0"
+          ]
+        },
+        "S17_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r17"
+          ],
+          "sdfioName": [
+            "i17_po0"
+          ]
+        },
+        "S18_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r18"
+          ],
+          "sdfioName": [
+            "i18_po0"
+          ]
+        },
+        "S19_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r19"
+          ],
+          "sdfioName": [
+            "i19_po0"
+          ]
+        },
+        "S20_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r20"
+          ],
+          "sdfioName": [
+            "i20_po0"
+          ]
+        },
+        "S21_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r21"
+          ],
+          "sdfioName": [
+            "i21_po0"
+          ]
+        },
+        "S22_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r22"
+          ],
+          "sdfioName": [
+            "i22_po0"
+          ]
+        },
+        "S23_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_r23"
+          ],
+          "sdfioName": [
+            "i23_po0"
+          ]
+        },
+        "S24_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c0"
+          ],
+          "sdfioName": [
+            "i24_po0"
+          ]
+        },
+        "S25_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c1"
+          ],
+          "sdfioName": [
+            "i25_po0"
+          ]
+        },
+        "S26_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c2"
+          ],
+          "sdfioName": [
+            "i26_po0"
+          ]
+        },
+        "S27_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c3"
+          ],
+          "sdfioName": [
+            "i27_po0"
+          ]
+        },
+        "S28_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c4"
+          ],
+          "sdfioName": [
+            "i28_po0"
+          ]
+        },
+        "S29_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c5"
+          ],
+          "sdfioName": [
+            "i29_po0"
+          ]
+        },
+        "S30_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c6"
+          ],
+          "sdfioName": [
+            "i30_po0"
+          ]
+        },
+        "S31_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c7"
+          ],
+          "sdfioName": [
+            "i31_po0"
+          ]
+        },
+        "S32_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c8"
+          ],
+          "sdfioName": [
+            "i32_po0"
+          ]
+        },
+        "S33_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c9"
+          ],
+          "sdfioName": [
+            "i33_po0"
+          ]
+        },
+        "S34_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c10"
+          ],
+          "sdfioName": [
+            "i34_po0"
+          ]
+        },
+        "S35_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c11"
+          ],
+          "sdfioName": [
+            "i35_po0"
+          ]
+        },
+        "S36_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c12"
+          ],
+          "sdfioName": [
+            "i36_po0"
+          ]
+        },
+        "S37_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c13"
+          ],
+          "sdfioName": [
+            "i37_po0"
+          ]
+        },
+        "S38_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c14"
+          ],
+          "sdfioName": [
+            "i38_po0"
+          ]
+        },
+        "S39_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c15"
+          ],
+          "sdfioName": [
+            "i39_po0"
+          ]
+        },
+        "S40_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c16"
+          ],
+          "sdfioName": [
+            "i40_po0"
+          ]
+        },
+        "S41_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c17"
+          ],
+          "sdfioName": [
+            "i41_po0"
+          ]
+        },
+        "S42_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c18"
+          ],
+          "sdfioName": [
+            "i42_po0"
+          ]
+        },
+        "S43_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c19"
+          ],
+          "sdfioName": [
+            "i43_po0"
+          ]
+        },
+        "S44_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c20"
+          ],
+          "sdfioName": [
+            "i44_po0"
+          ]
+        },
+        "S45_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c21"
+          ],
+          "sdfioName": [
+            "i45_po0"
+          ]
+        },
+        "S46_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c22"
+          ],
+          "sdfioName": [
+            "i46_po0"
+          ]
+        },
+        "S47_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c23"
+          ],
+          "sdfioName": [
+            "i47_po0"
+          ]
+        },
+        "S48_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c24"
+          ],
+          "sdfioName": [
+            "i48_po0"
+          ]
+        },
+        "S49_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c25"
+          ],
+          "sdfioName": [
+            "i49_po0"
+          ]
+        },
+        "S50_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c26"
+          ],
+          "sdfioName": [
+            "i50_po0"
+          ]
+        },
+        "S51_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c27"
+          ],
+          "sdfioName": [
+            "i51_po0"
+          ]
+        },
+        "S52_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c28"
+          ],
+          "sdfioName": [
+            "i52_po0"
+          ]
+        },
+        "S53_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c29"
+          ],
+          "sdfioName": [
+            "i53_po0"
+          ]
+        },
+        "S54_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c30"
+          ],
+          "sdfioName": [
+            "i54_po0"
+          ]
+        },
+        "S55_AXIS": {
+          "type": "stream",
+          "direction": "slave",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "data/input0.txt",
+          "annotation": [
+            "in_c31"
+          ],
+          "sdfioName": [
+            "i55_po0"
+          ]
+        },
+        "M00_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r0.txt",
+          "annotation": [
+            "out_r0"
+          ],
+          "sdfioName": [
+            "i56_pi0"
+          ]
+        },
+        "M01_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r1.txt",
+          "annotation": [
+            "out_r1"
+          ],
+          "sdfioName": [
+            "i57_pi0"
+          ]
+        },
+        "M02_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r2.txt",
+          "annotation": [
+            "out_r2"
+          ],
+          "sdfioName": [
+            "i58_pi0"
+          ]
+        },
+        "M03_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r3.txt",
+          "annotation": [
+            "out_r3"
+          ],
+          "sdfioName": [
+            "i59_pi0"
+          ]
+        },
+        "M04_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r4.txt",
+          "annotation": [
+            "out_r4"
+          ],
+          "sdfioName": [
+            "i60_pi0"
+          ]
+        },
+        "M05_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r5.txt",
+          "annotation": [
+            "out_r5"
+          ],
+          "sdfioName": [
+            "i61_pi0"
+          ]
+        },
+        "M06_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r6.txt",
+          "annotation": [
+            "out_r6"
+          ],
+          "sdfioName": [
+            "i62_pi0"
+          ]
+        },
+        "M07_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r7.txt",
+          "annotation": [
+            "out_r7"
+          ],
+          "sdfioName": [
+            "i63_pi0"
+          ]
+        },
+        "M08_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r8.txt",
+          "annotation": [
+            "out_r8"
+          ],
+          "sdfioName": [
+            "i64_pi0"
+          ]
+        },
+        "M09_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r9.txt",
+          "annotation": [
+            "out_r9"
+          ],
+          "sdfioName": [
+            "i65_pi0"
+          ]
+        },
+        "M10_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r10.txt",
+          "annotation": [
+            "out_r10"
+          ],
+          "sdfioName": [
+            "i66_pi0"
+          ]
+        },
+        "M11_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r11.txt",
+          "annotation": [
+            "out_r11"
+          ],
+          "sdfioName": [
+            "i67_pi0"
+          ]
+        },
+        "M12_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r12.txt",
+          "annotation": [
+            "out_r12"
+          ],
+          "sdfioName": [
+            "i68_pi0"
+          ]
+        },
+        "M13_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r13.txt",
+          "annotation": [
+            "out_r13"
+          ],
+          "sdfioName": [
+            "i69_pi0"
+          ]
+        },
+        "M14_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r14.txt",
+          "annotation": [
+            "out_r14"
+          ],
+          "sdfioName": [
+            "i70_pi0"
+          ]
+        },
+        "M15_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r15.txt",
+          "annotation": [
+            "out_r15"
+          ],
+          "sdfioName": [
+            "i71_pi0"
+          ]
+        },
+        "M16_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r16.txt",
+          "annotation": [
+            "out_r16"
+          ],
+          "sdfioName": [
+            "i72_pi0"
+          ]
+        },
+        "M17_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r17.txt",
+          "annotation": [
+            "out_r17"
+          ],
+          "sdfioName": [
+            "i73_pi0"
+          ]
+        },
+        "M18_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r18.txt",
+          "annotation": [
+            "out_r18"
+          ],
+          "sdfioName": [
+            "i74_pi0"
+          ]
+        },
+        "M19_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r19.txt",
+          "annotation": [
+            "out_r19"
+          ],
+          "sdfioName": [
+            "i75_pi0"
+          ]
+        },
+        "M20_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r20.txt",
+          "annotation": [
+            "out_r20"
+          ],
+          "sdfioName": [
+            "i76_pi0"
+          ]
+        },
+        "M21_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r21.txt",
+          "annotation": [
+            "out_r21"
+          ],
+          "sdfioName": [
+            "i77_pi0"
+          ]
+        },
+        "M22_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r22.txt",
+          "annotation": [
+            "out_r22"
+          ],
+          "sdfioName": [
+            "i78_pi0"
+          ]
+        },
+        "M23_AXIS": {
+          "type": "stream",
+          "direction": "master",
+          "dataWidth": 32,
+          "busWidth": 128,
+          "parameterIndex": 0,
+          "clkFreq": 250.0,
+          "registeredInterface": true,
+          "traceFile": "./data/output_r23.txt",
+          "annotation": [
+            "out_r23"
+          ],
+          "sdfioName": [
+            "i79_pi0"
+          ]
+        }
+      }
+    }
+  },
+  "connections": {
+    "net0": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S00_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net64": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S01_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net128": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S02_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net192": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S03_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net256": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S04_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net308": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S05_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net360": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S06_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net412": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S07_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net464": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S08_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net516": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S09_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net568": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S10_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net620": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S11_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net672": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S12_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net736": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S13_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net800": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S14_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net864": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S15_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net928": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S16_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net980": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S17_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net1032": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S18_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net1084": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S19_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net1136": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S20_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net1188": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S21_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net1240": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S22_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net1292": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S23_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net4": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S24_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net676": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S25_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net19": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S26_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net691": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S27_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net34": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S28_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net706": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S29_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net49": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S30_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net721": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S31_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net68": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S32_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net740": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S33_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net83": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S34_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net755": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S35_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net98": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S36_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net770": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S37_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net113": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S38_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net785": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S39_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net132": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S40_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net804": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S41_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net147": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S42_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net819": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S43_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net162": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S44_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net834": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S45_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net177": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S46_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net849": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S47_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net196": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S48_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net868": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S49_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net211": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S50_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net883": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S51_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net226": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S52_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net898": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S53_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net241": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S54_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net913": {
+      "dstPorts": [
+        {
+          "instName": "ai_engine_0",
+          "portName": "S55_AXIS"
+        }
+      ],
+      "direction": "pl_to_aie"
+    },
+    "net1344": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M00_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1345": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M01_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1346": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M02_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1347": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M03_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1348": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M04_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1349": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M05_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1350": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M06_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1351": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M07_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1352": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M08_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1353": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M09_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1354": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M10_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1355": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M11_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1356": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M12_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1357": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M13_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1358": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M14_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1359": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M15_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1360": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M16_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1361": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M17_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1362": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M18_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1363": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M19_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1364": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M20_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1365": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M21_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1366": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M22_AXIS"
+      },
+      "direction": "aie_to_pl"
+    },
+    "net1367": {
+      "type": "stream",
+      "srcPort": {
+        "instName": "ai_engine_0",
+        "portName": "M23_AXIS"
+      },
+      "direction": "aie_to_pl"
+    }
+  }
+}
