@@ -172,7 +172,7 @@ ifeq ($(PRE_BUILT),1)
 unzip:
 	rm -rf ./pre_built/libadf.a
 	tar -xf ./pre_built/libadf.tar.gz -C ./pre_built
-package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host unzip
+package_${TARGET}: unzip ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
 	${VCC} -p -t ${TARGET} -f ${PLATFORM} \
 		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs ${ROOTFS} \
