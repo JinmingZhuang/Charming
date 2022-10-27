@@ -25,7 +25,7 @@ HOST_EXE = hostexe
 HOST_SRCS := ./host/host.cpp
 SYSROOT = /share/Jinming/Versal/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
-EDGE_COMMON_SW=/share/Jinming/Versal/sysroots/cortexa72-cortexa53-xilinx-linux
+EDGE_COMMON_SW=/share/Jinming/xilinx-versal-common-v2021.1
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
 
