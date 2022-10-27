@@ -85,6 +85,7 @@ const int NUM_LARYER=8;
 
 const int D0=6;
 const int D1=16;
+const int batch_size = D0 * D1;
 const int layer[NUM_LARYER][4] =
 {
     {4096,1024,1024,1},
@@ -93,8 +94,8 @@ const int layer[NUM_LARYER][4] =
     {4096,1024,1024,1},
     {4096,1024,4096,1},
     {4096,4096,1024,1},
-    {512,512,64,128},
-    {512,64,512,128}
+    {512,512,64,batch_size},
+    {512,64,512,batch_size}
 };
 
 
@@ -329,15 +330,15 @@ int main(int argc, char** argv) {
     auto bomapped_layer5_in1 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer5_in1));
 
     //layer6
-    xrtBufferHandle bohdl_layer6_in0 = xrtBOAlloc(dhdl, (layer[6][0]*layer[6][1]*D0*D1) * sizeof(float), 0, 0);
+    xrtBufferHandle bohdl_layer6_in0 = xrtBOAlloc(dhdl, (layer[6][0]*layer[6][1]*batch_size) * sizeof(float), 0, 0);
     auto bomapped_layer6_in0 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer6_in0));
-    xrtBufferHandle bohdl_layer6_in1 = xrtBOAlloc(dhdl, (layer[6][1]*layer[6][2]*D0*D1) * sizeof(float), 0, 0);
+    xrtBufferHandle bohdl_layer6_in1 = xrtBOAlloc(dhdl, (layer[6][1]*layer[6][2]*batch_size) * sizeof(float), 0, 0);
     auto bomapped_layer6_in1 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer6_in1));
 
     //layer7
-    xrtBufferHandle bohdl_layer7_in0 = xrtBOAlloc(dhdl, (layer[7][0]*layer[7][1]*D0*D1) * sizeof(float), 0, 0);
+    xrtBufferHandle bohdl_layer7_in0 = xrtBOAlloc(dhdl, (layer[7][0]*layer[7][1]*batch_size) * sizeof(float), 0, 0);
     auto bomapped_layer7_in0 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer7_in0));
-    xrtBufferHandle bohdl_layer7_in1 = xrtBOAlloc(dhdl, (layer[7][1]*layer[7][2]*D0*D1) * sizeof(float), 0, 0);
+    xrtBufferHandle bohdl_layer7_in1 = xrtBOAlloc(dhdl, (layer[7][1]*layer[7][2]*batch_size) * sizeof(float), 0, 0);
     auto bomapped_layer7_in1 = reinterpret_cast<float*>(xrtBOMap(bohdl_layer7_in1));
     
     //layer0
@@ -478,12 +479,12 @@ int main(int argc, char** argv) {
     xrtBOSync(bohdl_layer5_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[5][1]*layer[5][2])* sizeof(float),0);
 
     //layer6
-    xrtBOSync(bohdl_layer6_in0, XCL_BO_SYNC_BO_TO_DEVICE , (layer[6][0]*layer[6][1]*D0*D1)* sizeof(float),0);
-    xrtBOSync(bohdl_layer6_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[6][1]*layer[6][2]*D0*D1)* sizeof(float),0);
+    xrtBOSync(bohdl_layer6_in0, XCL_BO_SYNC_BO_TO_DEVICE , (layer[6][0]*layer[6][1]*batch_size)* sizeof(float),0);
+    xrtBOSync(bohdl_layer6_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[6][1]*layer[6][2]*batch_size)* sizeof(float),0);
 
     //layer7
-    xrtBOSync(bohdl_layer7_in0, XCL_BO_SYNC_BO_TO_DEVICE , (layer[7][0]*layer[7][1]*D0*D1)* sizeof(float),0);
-    xrtBOSync(bohdl_layer7_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[7][1]*layer[7][2]*D0*D1)* sizeof(float),0);
+    xrtBOSync(bohdl_layer7_in0, XCL_BO_SYNC_BO_TO_DEVICE , (layer[7][0]*layer[7][1]*batch_size)* sizeof(float),0);
+    xrtBOSync(bohdl_layer7_in1, XCL_BO_SYNC_BO_TO_DEVICE , (layer[7][1]*layer[7][2]*batch_size)* sizeof(float),0);
 
 
     ////////////////////////////// Output handler//////////////////////////////
@@ -512,11 +513,11 @@ int main(int argc, char** argv) {
     auto bomapped_layer5_out = reinterpret_cast<float*>(xrtBOMap(bohdl_layer5_out));
 
     //layer6
-    xrtBufferHandle bohdl_layer6_out = xrtBOAlloc(dhdl, (layer[6][0]*layer[6][2]*D0*D1) * sizeof(float), 0, 0);
+    xrtBufferHandle bohdl_layer6_out = xrtBOAlloc(dhdl, (layer[6][0]*layer[6][2]*batch_size) * sizeof(float), 0, 0);
     auto bomapped_layer6_out = reinterpret_cast<float*>(xrtBOMap(bohdl_layer6_out));
 
     //layer7
-    xrtBufferHandle bohdl_layer7_out = xrtBOAlloc(dhdl, (layer[7][0]*layer[7][2]*D0*D1) * sizeof(float), 0, 0);
+    xrtBufferHandle bohdl_layer7_out = xrtBOAlloc(dhdl, (layer[7][0]*layer[7][2]*batch_size) * sizeof(float), 0, 0);
     auto bomapped_layer7_out = reinterpret_cast<float*>(xrtBOMap(bohdl_layer7_out));
 
     myGraph_large.init();
@@ -766,8 +767,8 @@ int main(int argc, char** argv) {
     xrtBOSync(bohdl_layer3_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[3][0]*layer[3][2])* sizeof(float),/*OFFSET=*/ 0);
     xrtBOSync(bohdl_layer4_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[4][0]*layer[4][2])* sizeof(float),/*OFFSET=*/ 0);
     xrtBOSync(bohdl_layer5_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[5][0]*layer[5][2])* sizeof(float),/*OFFSET=*/ 0);
-    xrtBOSync(bohdl_layer6_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[6][0]*layer[6][2]*D0*D1)* sizeof(float),/*OFFSET=*/ 0);
-    xrtBOSync(bohdl_layer7_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[7][0]*layer[7][2]*D0*D1)* sizeof(float),/*OFFSET=*/ 0);
+    xrtBOSync(bohdl_layer6_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[6][0]*layer[6][2]*batch_size)* sizeof(float),/*OFFSET=*/ 0);
+    xrtBOSync(bohdl_layer7_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[7][0]*layer[7][2]*batch_size)* sizeof(float),/*OFFSET=*/ 0);
 
 
     xrtRunClose(dma_rhdl_large);
