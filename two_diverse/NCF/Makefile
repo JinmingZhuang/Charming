@@ -16,16 +16,16 @@ TARGET   = hw
 MODE	 = linux
 HOST_ARCH = aarch64
 PRE_BUILT = 1
-PLATFORM_REPO_PATHS=/share/Jinming/vck_1024#/opt/xilinx/platforms
+PLATFORM_REPO_PATHS=/opt/xilinx/platforms
 PLATFORM = ${PLATFORM_REPO_PATHS}/xilinx_vck190_base_202110_1/xilinx_vck190_base_202110_1.xpfm
 XCLBIN   = vck190_aie_base_graph_${TARGET}.xclbin
 XSA	 = vck190_aie_base_graph_${TARGET}.xsa
 XPFM	 = vck190_xpfm
 HOST_EXE = hostexe
 HOST_SRCS := ./host/host.cpp
-SYSROOT = /share/Jinming/vck_1024/images/linux/sdk/sysroots/cortexa72-cortexa53-xilinx-linux
+SYSROOT = /share/Jinming/Versal/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
-EDGE_COMMON_SW=/share/Jinming/vck_1024/images/linux/
+EDGE_COMMON_SW=/share/Jinming/xilinx-versal-common-v2021.1
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
 
@@ -170,12 +170,12 @@ ${HOST_EXE}: ${AIE_HOSTEXE}
 
 ECHO:= @echo
 
-package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS unzip package_${TARGET} 
+package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS package_${TARGET} 
 ifeq ($(PRE_BUILT),1)	
 unzip:
 	rm -rf ./pre_built/libadf.a
 	tar -xf ./pre_built/libadf.tar.gz -C ./pre_built
-package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
+package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host unzip
 	${VCC} -p -t ${TARGET} -f ${PLATFORM} \
 		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs ${ROOTFS} \

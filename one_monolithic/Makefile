@@ -199,12 +199,12 @@ ${HOST_EXE_NCF}: $(AIE_HOSTEXE)
 
 ECHO:= @echo
 
-package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS unzip package_${TARGET} 
+package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS package_${TARGET} 
 ifeq ($(PRE_BUILT),1)	
 unzip:
 	rm -rf ./pre_built/libadf.a
 	tar -xf ./pre_built/libadf.tar.gz -C ./pre_built
-package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host hostbert hostvit hostmlp hostncf
+package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host hostbert hostvit hostmlp hostncf unzip
 	${VCC} -p -t ${TARGET} -f ${PLATFORM} \
 		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs ${ROOTFS} \
