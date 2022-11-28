@@ -65,6 +65,7 @@ In this step, we package all the file together to package.hw/sd_card.img includi
 https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Images-to-the-SD-Card
 
 2. Execution<br/>
+When running the program, there are 5 input arguments. The first three are the Matrix size M, K, N standing for MM with size (M*K) * (K*N). Next arguments stands for the test iteration. Last one is verfigy flag, 0 stands for don't calculate the software(sw) reference result, 1 stands for verifying the sw and hw results. For large MM, it may take more than 30 minutes for the ARM core to compute.
 ```
 cd /mnt/sd-mmcblk0p1
 ./hostexe mm_hw.xclbin 6144 6144 6144 1 0
