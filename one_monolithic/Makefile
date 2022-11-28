@@ -31,9 +31,11 @@ HOST_EXE_MLP = hostexe_mlp
 HOST_SRCS_MLP := ./host/host_MLP.cpp
 HOST_EXE_NCF = hostexe_ncf
 HOST_SRCS_NCF := ./host/host_NCF.cpp
-SYSROOT = /share/Jinming/Versal/sysroots/cortexa72-cortexa53-xilinx-linux
+SYSROOT_PATH = ./
+SYSROOT = ${SYSROOT_PATH}/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
-EDGE_COMMON_SW=/share/Jinming/xilinx-versal-common-v2021.1
+EDGE_COMMON_SW_PATH = ./
+EDGE_COMMON_SW= ${EDGE_COMMON_SW_PATH}/xilinx-versal-common-v2021.1
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
 
