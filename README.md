@@ -34,6 +34,12 @@ source /opt/xilinx/xrt/setup.sh
 unset LD_LIBRARY_PATH (If needed)
 source ${PATH}/environment-setup-cortexa72-cortexa53-xilinx-linux
 ```
+## Using Pre-built Design<br/>
+As the time for compilation more take several hours, we provide our pre-built hardware configuration and executable files in the design.
+1. Generate sd_card directly
+```
+make package PLATFORM=${PATH} SYSROOT=${PATH} EDGE_COMMON_SW=${PATH} PRE_BUILT=1
+```
 ## Compile Charming Accelerators<br/>
 The compilation processes are the same for all the designs. In the following part we take one monolithic design as an example.<br/>
 1. AIE Compilation<br/>
