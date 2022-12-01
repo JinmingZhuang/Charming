@@ -1,5 +1,5 @@
 [![DOI](https://zenodo.org/badge/556002569.svg)](https://zenodo.org/badge/latestdoi/556002569)<br/>
-# Charming 
+# CHARM
 ## Overview
 In this repo, we provide multiple heterogeneous Charming accelerators on AMD Versal VCK190 platform for general-purpose Matrix-Matrix Multiplication(GEMM) applications including BERT for natural language processing, NCF for recommendations, ViT for vision classification, MLP for multi-layer perceptron classification or regression.
 
