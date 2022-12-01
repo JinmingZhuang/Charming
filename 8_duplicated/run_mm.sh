@@ -38,7 +38,7 @@ then
 	./hostexe mm_hw.xclbin 3072 1024 3048 100 0 >> 4_result_vit_Layer4;
 	echo -e "\nLayer4 Succeed!";
 	sleep 5;
-	./hostexe mm_hw.xclbin 64 64 64 100 0 >> 5_result_Layer5_6;
+	./hostexe mm_hw.xclbin 64 64 64 100 0 >> 5_result_vit_Layer5_6;
 	echo -e "\nLayer5_6 Succeed!";
 	sleep 5;
 elif [ $task == "NCF" ] || [ $task == "ncf" ]
@@ -72,16 +72,16 @@ then
 	sleep 5;
 elif [ $task == "MLP" ] || [ $task == "mlp" ]
 then
-	./hostexe mm_hw.xclbin 3072 2048 4096 100 0 >> 0_result_bert_Layer0;
+	./hostexe mm_hw.xclbin 3072 2048 4096 100 0 >> 0_result_mlp_Layer0;
 	echo -e "\nLayer0 Succeed!";
 	sleep 5;
-	./hostexe mm_hw.xclbin 3072 4096 4096 100 0 >> 1_result_bert_Layer1;
+	./hostexe mm_hw.xclbin 3072 4096 4096 100 0 >> 1_result_mlp_Layer1;
 	echo -e "\nLayer1 Succeed!";
 	sleep 5;
-	./hostexe mm_hw.xclbin 3072 4096 4096 100 0 >> 2_result_bert_Layer2;
+	./hostexe mm_hw.xclbin 3072 4096 4096 100 0 >> 2_result_mlp_Layer2;
 	echo -e "\nLayer2 Succeed!";
 	sleep 5;
-	./hostexe mm_hw.xclbin 3072 4096 1024 100 0 >> 3_result_bert_Layer3;
+	./hostexe mm_hw.xclbin 3072 4096 1024 100 0 >> 3_result_mlp_Layer3;
 	echo -e "\nLayer3 Succeed!";
 	sleep 5;
 fi
@@ -92,7 +92,7 @@ for filename in *_result_$1_*;
 do
 	let n=1;
 	while read line; do
-		if (( ${n} == 9 ))
+		if (( ${n} == 10 ))
 		then
 			my_str=$line;
 			echo "${filename}:${my_str}" >>Figure7_8_duplicate_$task.log; 
