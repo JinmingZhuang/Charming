@@ -1,6 +1,6 @@
-export LD_LIBRARY_PATH=/mnt:/tmp:$LD_LIBRARY_PATH
-export PATH=$PATH:/sbin
-export XILINX_XRT=/usr
+#export LD_LIBRARY_PATH=/mnt:/tmp:$LD_LIBRARY_PATH
+#export PATH=$PATH:/sbin
+#export XILINX_XRT=/usr
 
 if (( $1 == "bert" )) || (( $1 == "BERT" ))
 then
@@ -68,7 +68,7 @@ then
 	./hostexe mm_hw.xclbin 3072 32 1 100 0 >> 8_result_ncf_Layer9;
 	echo -e "\nLayer8 Succeed!";
 	sleep 5;
-if (( $1 == "MLP" )) || (( $1 == "mlp" ))
+elif (( $1 == "MLP" )) || (( $1 == "mlp" ))
 then
 	./hostexe mm_hw.xclbin 3072 2048 4096 100 0 >> 0_result_bert_Layer0;
 	echo -e "\nLayer0 Succeed!";
@@ -90,7 +90,7 @@ for filename in *_result_$1_*;
 do
 	let n=1;
 	while read line; do
-		if (( ${n} == 7 ))
+		if (( ${n} == 9 ))
 		then
 			my_str=$line;
 			echo "${filename}:${my_str}" >>Figure7_8_duplicate_$1.log; 
@@ -100,8 +100,6 @@ do
 done
 rm -rf *_result_$1_*;
 
-chmod +x cal_throughput.sh;
-
-./cal_throughput.sh $1;
+sh ./cal_throughput.sh $1;
 
 echo -e "\n8_duplicate Accs Test Succeed!";

@@ -23,10 +23,10 @@ XSA	 = vck190_aie_base_graph_${TARGET}.xsa
 XPFM	 = vck190_xpfm
 HOST_EXE = hostexe
 HOST_SRCS := ./host/host.cpp
-SYSROOT_PATH = ./
+SYSROOT_PATH = /share/Jinming/Versal
 SYSROOT = ${SYSROOT_PATH}/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
-EDGE_COMMON_SW_PATH = ./
+EDGE_COMMON_SW_PATH = /share/Jinming/
 EDGE_COMMON_SW= ${EDGE_COMMON_SW_PATH}/xilinx-versal-common-v2021.1
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
@@ -172,12 +172,12 @@ ${HOST_EXE}: ${AIE_HOSTEXE}
 
 ECHO:= @echo
 
-package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS unzip package_${TARGET} 
+package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS package_${TARGET} 
 ifeq ($(PRE_BUILT),1)	
 unzip:
 	rm -rf ./pre_built/libadf.a
 	tar -xf ./pre_built/libadf.tar.gz -C ./pre_built
-package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
+package_${TARGET}: unzip ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
 	${VCC} -p -t ${TARGET} -f ${PLATFORM} \
 		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs ${ROOTFS} \
@@ -185,6 +185,8 @@ package_${TARGET}: ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
 		--package.boot_mode=sd \
 		--package.image_format=ext4 \
 		--package.sd_file ${HOST_EXE} \
+		--package.sd_file run_mm.sh \
+		--package.sd_file cal_throughput.sh \
 		${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 else
@@ -197,6 +199,8 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
 		--package.sd_file ${HOST_EXE} \
+		--package.sd_file run_mm.sh \
+		--package.sd_file cal_throughput.sh \
 		${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 endif

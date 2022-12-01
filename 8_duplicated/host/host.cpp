@@ -292,7 +292,9 @@ int main(int argc, char** argv) {
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << "MM Size:"<< M1 << "*" << K1 << "*" << N1 << std::endl;
-    std::cout << "Total time is: "<< kernel_time_in_sec <<"s, TOPS = " << TOPS << " GOPS/s" << std::endl;
+    std::cout << "Total time is (s): " << std::endl;
+    std::cout << kernel_time_in_sec << std::endl;
+    std::cout << "TOPS = " << TOPS << " GOPS/s" << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
 
