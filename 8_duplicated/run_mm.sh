@@ -2,7 +2,9 @@
 #export PATH=$PATH:/sbin
 #export XILINX_XRT=/usr
 
-if (( $1 == "bert" )) || (( $1 == "BERT" ))
+task=$1;
+echo "Current Task is $task";
+if [ $task == "bert" ] || [ $task == "BERT" ]
 then
 	./hostexe mm_hw.xclbin 3072 1024 1024 100 0 >> 0_result_bert_Layer0_3;
 	echo -e "\nLayer0_3 Succeed!";
@@ -19,7 +21,7 @@ then
 	./hostexe mm_hw.xclbin 512 64 512 100 0 >> 4_result_bert_Layer7;
 	echo -e "\nLayer7 Succeed!";
 	sleep 5;
-elif (( $1 == "vit" )) || (( $1 == "VIT" )) || (( $1 == "ViT" ))
+elif [ $task == "vit" ] || [ $task == "VIT" ] || [ $task == "ViT" ]
 then
 	./hostexe mm_hw.xclbin 3072 3024 1024 100 0 >> 0_result_vit_Layer0;
 	echo -e "\nLayer0 Succeed!";
@@ -39,7 +41,7 @@ then
 	./hostexe mm_hw.xclbin 64 64 64 100 0 >> 5_result_Layer5_6;
 	echo -e "\nLayer5_6 Succeed!";
 	sleep 5;
-elif (( $1 == "NCF" )) || (( $1 == "ncf" ))
+elif [ $task == "NCF" ] || [ $task == "ncf" ]
 then
 	./hostexe mm_hw.xclbin 3072 4096 2048 100 0 >> 0_result_ncf_Layer0;
 	echo -e "\nLayer0 Succeed!";
@@ -68,7 +70,7 @@ then
 	./hostexe mm_hw.xclbin 3072 32 1 100 0 >> 8_result_ncf_Layer9;
 	echo -e "\nLayer8 Succeed!";
 	sleep 5;
-elif (( $1 == "MLP" )) || (( $1 == "mlp" ))
+elif [ $task == "MLP" ] || [ $task == "mlp" ]
 then
 	./hostexe mm_hw.xclbin 3072 2048 4096 100 0 >> 0_result_bert_Layer0;
 	echo -e "\nLayer0 Succeed!";
@@ -93,13 +95,13 @@ do
 		if (( ${n} == 9 ))
 		then
 			my_str=$line;
-			echo "${filename}:${my_str}" >>Figure7_8_duplicate_$1.log; 
+			echo "${filename}:${my_str}" >>Figure7_8_duplicate_$task.log; 
 		fi
 		let n=${n}+1;
 	done < ./$filename
 done
 rm -rf *_result_$1_*;
 
-sh ./cal_throughput.sh $1;
+sh ./cal_throughput.sh $task;
 
 echo -e "\n8_duplicate Accs Test Succeed!";
