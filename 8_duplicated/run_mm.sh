@@ -1,6 +1,6 @@
-#export LD_LIBRARY_PATH=/mnt:/tmp:$LD_LIBRARY_PATH
-#export PATH=$PATH:/sbin
-#export XILINX_XRT=/usr
+export LD_LIBRARY_PATH=/mnt:/tmp:$LD_LIBRARY_PATH
+export PATH=$PATH:/sbin
+export XILINX_XRT=/usr
 
 task=$1;
 echo "Current Task is $task";
