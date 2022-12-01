@@ -80,9 +80,9 @@ int main(int argc, char** argv) {
 
     int TX,TY,TZ;
     int M1=4096,K1=4096,N1=4096;
-    int iter=500;
+    int iter=500,verify=0;
     char* xclbinFilename;
-    if(argc == 6) {
+    if(argc == 7) {
         xclbinFilename = argv[1];
         if (sscanf (argv[2], "%i", &M1) != 1) {
             fprintf(stderr, "error - not an integer");
@@ -94,6 +94,9 @@ int main(int argc, char** argv) {
             fprintf(stderr, "error - not an integer");
         }
         if (sscanf (argv[5], "%i", &iter) != 1) {
+            fprintf(stderr, "error - not an integer");
+        }
+        if (sscanf (argv[6], "%i", &verify) != 1) {
             fprintf(stderr, "error - not an integer");
         }
         
@@ -325,90 +328,91 @@ int main(int argc, char** argv) {
     //// Comparing the execution data to the golden data
     ////////////////////////////////////////////
 
-    // {
-    //     float sum = 0;
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             sum =0;
-    //             for (int k = 0; k < K; k++) {
-    //                 sum=sum+DataInput0[m][k]*DataInput1[k][n];
-    //             }
-    //             golden[m][n]=sum;
-    //         } 
-    //     }
-    // }
+    if(verify){
+    
+        float sum = 0;
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                sum =0;
+                for (int k = 0; k < K; k++) {
+                    sum=sum+DataInput0[m][k]*DataInput1[k][n];
+                }
+                golden[m][n]=sum;
+            } 
+        }
+    
 
-    // int errorCount = 0;
-    // {   
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             if(abs((float)(bomapped_layer0_out[m+n*M])-golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        int errorCount = 0;
+      
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                if(abs((float)(bomapped_layer0_out[m+n*M])-golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
 
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             if(abs((float)(bomapped_layer1_out[m+n*M])-golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                if(abs((float)(bomapped_layer1_out[m+n*M])-golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
 
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             if(abs((float)(bomapped_layer2_out[m+n*M])-golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                if(abs((float)(bomapped_layer2_out[m+n*M])-golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
 
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             if(abs((float)(bomapped_layer3_out[m+n*M])-golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                if(abs((float)(bomapped_layer3_out[m+n*M])-golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
 
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             if(abs((float)(bomapped_layer4_out[m+n*M])-golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                if(abs((float)(bomapped_layer4_out[m+n*M])-golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
 
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             if(abs((float)(bomapped_layer5_out[m+n*M])-golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                if(abs((float)(bomapped_layer5_out[m+n*M])-golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
 
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             if(abs((float)(bomapped_layer6_out[m+n*M])-golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                if(abs((float)(bomapped_layer6_out[m+n*M])-golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
 
-    //     for (int m = 0; m < M; m++) {
-    //         for (int n = 0; n < N; n++) {
-    //             if(abs((float)(bomapped_layer7_out[m+n*M])-golden[m][n])>=1e-3){
-    //                 errorCount++;
-    //             }
-    //         }
-    //     }
+        for (int m = 0; m < M; m++) {
+            for (int n = 0; n < N; n++) {
+                if(abs((float)(bomapped_layer7_out[m+n*M])-golden[m][n])>=1e-3){
+                    errorCount++;
+                }
+            }
+        }
 
-    //     if (errorCount)
-    //         printf("Test failed with %d errors\n", errorCount);
-    //     else
-    //         printf("TEST PASSED\n");
-    // }
+        if (errorCount)
+            printf("Test failed with %d errors\n", errorCount);
+        else
+            printf("TEST PASSED\n");
+    }
 
     //////////////////////////////////////////
     // clean up XRT

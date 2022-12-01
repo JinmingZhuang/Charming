@@ -72,19 +72,19 @@ const int OUT_SIZE=H1*W2;
 int main(int argc, char** argv) {
 
     int TX,TY,TZ;
-    int M1=4096,K1=4096,N1=4096;
+    int M1=1536,K1=128,N1=1024;
     int iter=500,verify=0;
     char* xclbinFilename;
     if(argc == 7) {
         xclbinFilename = argv[1];
         if (sscanf (argv[2], "%i", &M1) != 1) {
-            fprintf(stderr, "error - not an integer");
+           fprintf(stderr, "error - not an integer");
         }
         if (sscanf (argv[3], "%i", &K1) != 1) {
-            fprintf(stderr, "error - not an integer");
+           fprintf(stderr, "error - not an integer");
         }
         if (sscanf (argv[4], "%i", &N1) != 1) {
-            fprintf(stderr, "error - not an integer");
+           fprintf(stderr, "error - not an integer");
         }
         if (sscanf (argv[5], "%i", &iter) != 1) {
             fprintf(stderr, "error - not an integer");
@@ -161,11 +161,12 @@ int main(int argc, char** argv) {
     out_bohdl = xrtBOAlloc(dhdl, sizeOut* sizeof(float), 0, 0);
     out_bomapped = reinterpret_cast<float*>(xrtBOMap(out_bohdl));
     memset(out_bomapped, 0xABCDEF00, sizeOut * sizeof(float));
-    myGraph.init();
-                              
-    printf("graph run\n");
-    myGraph.run(-1);
-
+    
+    int graph_iter=X*Y*Z*TX*TY*TZ;
+    myGraph.init(); 
+    printf("graph init\n");
+    myGraph.run(graph_iter);
+    
 
     std::cout << "Kernel run\n";
     xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "dma");
@@ -177,7 +178,7 @@ int main(int argc, char** argv) {
     //int iter=ceil(1024*96*8/(ceil(M1/512)*ceil(M1/512)*ceil(M1/512)));
     for (int i=0;i<iter;i++){
     // start input kernels run handles
-    dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,TX,TY,TZ,
+        dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,TX,TY,TZ,
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
@@ -197,10 +198,10 @@ int main(int argc, char** argv) {
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
                         nullptr, nullptr, nullptr, nullptr,
-                        nullptr, nullptr, nullptr, nullptr);
+                        nullptr, nullptr, nullptr, nullptr);    
         xrtRunWait(dma_rhdl);
     }
- 
+    myGraph.end();
     auto kernel_end = std::chrono::high_resolution_clock::now();
     kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
     kernel_time_in_sec = kernel_time.count();
@@ -258,7 +259,6 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////
 
     std::cout << "Releasing remaining XRT objects...\n";
-    
     xrtBOFree(out_bohdl);
     xrtBOFree(in_bohdl0);
     xrtBOFree(in_bohdl1);
