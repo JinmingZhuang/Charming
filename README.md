@@ -107,21 +107,17 @@ vi Table2.log
 
 #### 1. One monolithic design result(Figure 7 Grey Bars)<br/>
 
-#### For one monolithic design since all the application are running on the same hardware configuration, we can simply use one image and call different host runtime, for convenience, user can run the following command directly.<br/>
+#### For one monolithic design since all the application are running on the same hardware configuration, we can simply use one image as above MM test and call different host runtime, for convenience, user can run the following command directly.<br/>
 ```
 sh run_application.sh
-vi 
-```
-
-
-#### Here we run each application for 100 times in order to amortize the measurement uncertainty. Following is the example for BERT application, for other applications we should change "hostbert" into host{vit,ncf,mlp}.<br/>
-
-<!-- #### Note that in order to avoid of rebooting the system after running each task, we set myGragh.run(-1) in the host code which makes AIE run forever. Thus, the AIE will not stop automatically, after running each task we should enter "Ctrl + C" to stop the program and run next Application.<br/> -->
-```
-./hostbert mm_hw.xclbin 100 0
+vi Figure7_One_Mono.log
 ```
 
 #### 2. One speacialized design result (Figure 7 Orange Bars)<br/>
+#### Here we run each application for 20 times in order to amortize the measurement uncertainty. Following is the example for BERT application, for other applications we should change the directories and images.
+
+<!-- #### Note that in order to avoid of rebooting the system after running each task, we set myGragh.run(-1) in the host code which makes AIE run forever. Thus, the AIE will not stop automatically, after running each task we should enter "Ctrl + C" to stop the program and run next Application.<br/> -->
+
 Copy the image of each design in "one_special" folder into sd_card and boot the system<br/>
 ```
 ./host{bert,vit,ncf,mlp} mm_hw.xclbin 100 0
