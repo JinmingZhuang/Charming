@@ -54,7 +54,7 @@ then
     		Layer5=$line;
      	fi
     done < "Figure7_8_duplicate_$task.log"
-    Time=`echo ${Layer0} + ${Layer1} + ${Layer2} + ${Layer3} + ${Layer4} + ${Layer5}*10*1536 | bc`;
+    Time=`echo "scale=2; ${Layer0} + ${Layer1} + ${Layer2} + ${Layer3} + ${Layer4} + ${Layer5}*1536/10" | bc`;
 	# 100 Iteration, 8 Accs
 	Throughput=`echo "scale=2; ${OPs}*100*8/${Time}/1000000000" | bc`;
     echo "ViT on 8 Duplicate Accs: ${Throughput} GOPs";
