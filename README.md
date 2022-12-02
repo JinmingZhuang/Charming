@@ -38,35 +38,38 @@ source ${PATH}/environment-setup-cortexa72-cortexa53-xilinx-linux
 
 ## Using Pre-built Design (3-5 Minutes)<br/>
 
-### As the time for compilation more take several hours, we provide our pre-built hardware configuration and executable files in the design.
+#### As the time for compilation more take several hours, we provide our pre-built hardware configuration and executable files in the design.
 ### 1. Generate sd_card directly
 ```
 make package PLATFORM=${PATH} SYSROOT=${PATH} EDGE_COMMON_SW=${PATH} PRE_BUILT=1
 ```
 
 ## Compile Charming Accelerators(4-12 Hours)<br/>
-### The compilation processes are the same for all the designs. In the following part we take one monolithic design as an example.<br/>
+#### The compilation processes are the same for all the designs. In the following part we take one monolithic design as an example.<br/>
+```
+cd one_monolithic
+```
 ### 1. AIE Compilation<br/>
-### The source files of AIE design is in one_monolithic/aie folder, we leverage aiecompiler to generate the libadf.a file. <br/>
+#### The source files of AIE design is in one_monolithic/aie folder, we leverage aiecompiler to generate the libadf.a file. <br/>
 ```
 make aie PLATFORM=${PATH}
 ```
 
 
 ### 2. Programmable Logic (PL) Compilation<br/>
-### The source files of PL design is in one_monolithic/kernel folder, we leverage Vitis HLS to generate the RTL code and Vitis to generate the bitstream. <br/>
+#### The source files of PL design is in one_monolithic/kernel folder, we leverage Vitis HLS to generate the RTL code and Vitis to generate the bitstream. <br/>
 ```
 make build PLATFORM=${PATH} 
 ```
 
 
 ### 3. Host Compilation<br/>
-### The source files of PL design is in one_monolithic/host folder, we leverage the cross-compilation tool to generate the executable file that can be run on ARM CPU.<br/>
+#### The source files of PL design is in one_monolithic/host folder, we leverage the cross-compilation tool to generate the executable file that can be run on ARM CPU.<br/>
 ```
 make host SYSROOT=${PATH} EDGE_COMMON_SW=${PATH}
 ```
 ### 4. File Package<br/>
-### In this step, we package all the file together to package.hw/sd_card.img including the host executable, xclbin and petalinux boost files.<br/>
+#### In this step, we package all the file together to package.hw/sd_card.img including the host executable, xclbin and petalinux boost files.<br/>
 ```
 make package
 ```
@@ -77,7 +80,7 @@ make package
 https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Images-to-the-SD-Card
 
 ### 2. Execution<br/>
-### When running the program, there are 5 input arguments. The first three are the Matrix size M, K, N standing for MM with size ( M * K ) * ( K * N ). Next arguments stands for the test iteration. Last one is verfigy flag, 0 stands for don't calculate the software(sw) reference result, 1 stands for verifying the sw and hw results. For large MM, it may take more than 30 minutes for the ARM core to compute.
+#### When running the program, there are 5 input arguments. The first three are the Matrix size M, K, N standing for MM with size ( M * K ) * ( K * N ). Next arguments stands for the test iteration. Last one is verfigy flag, 0 stands for don't calculate the software(sw) reference result, 1 stands for verifying the sw and hw results. For large MM, it may take more than 30 minutes for the ARM core to compute.
 ```
 cd /mnt/sd-mmcblk0p1
 ./hostexe mm_hw.xclbin 6144 6144 6144 1 0
