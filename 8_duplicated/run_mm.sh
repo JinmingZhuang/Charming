@@ -52,7 +52,7 @@ then
 	./hostexe mm_hw.xclbin 3072 1024 512 100 0 >> 2_result_${task}_Layer2;
 	echo -e "\nLayer2 Succeed!";
 	sleep 5;
-	./hostexe mm_hw.xclbin 3072 512 256 100 0 >> 3_result_${task}_Layer3;
+	./hostexe mm_hw.xclbin 3072 512 256 1 0 >> 3_result_${task}_Layer3;
 	echo -e "\nLayer3 Succeed!";
 	sleep 5;
 	./hostexe mm_hw.xclbin 3072 256 128 100 0 >> 4_result_${task}_Layer4;

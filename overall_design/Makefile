@@ -37,7 +37,7 @@ BUILD_DIR := ./build_dir.$(TARGET).xilinx_vck190_base_202110_1
 KERNEL_XO := $(TEMP_DIR)/dma_large.xo $(TEMP_DIR)/dma_small.xo $(TEMP_DIR)/transpose0.xo $(TEMP_DIR)/transpose1.xo $(TEMP_DIR)/softmax.xo $(TEMP_DIR)/layernorm.xo
 GRAPH    = aie/mm_top.cpp
 LIBADF  = libadf.a
-AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=4096 -include="./aie" -workdir=./Work ${GRAPH} #-v
+AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=1024 -include="./aie" -workdir=./Work ${GRAPH} #-v
 AIE_SIM_CMD = aiesimulator --pkg-dir=./Work --dump-vcd foo --profile
 EMU_CMD = ./launch_hw_emu.sh
 PACKAGE_OUT = ./package.$(TARGET)

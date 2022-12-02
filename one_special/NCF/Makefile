@@ -38,7 +38,7 @@ BUILD_DIR := ./build_dir.$(TARGET).xilinx_vck190_base_202110_1
 KERNEL_XO := $(TEMP_DIR)/dma.xo
 GRAPH    = aie/mm_top.cpp
 LIBADF  = libadf.a
-AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=4096 -include="./aie" -workdir=./Work ${GRAPH} #-v
+AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=1024 -include="./aie" -workdir=./Work ${GRAPH} #-v
 AIE_SIM_CMD = aiesimulator --pkg-dir=./Work --dump-vcd foo --profile
 AIE_HOSTEXE = aie_control_xrt.o
 ifeq ($(PRE_BUILT),1)
@@ -180,6 +180,7 @@ package_${TARGET}: unzip ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
 		--package.kernel_image ${IMAGE} \
 		--package.boot_mode=sd \
 		--package.image_format=ext4 \
+		--package.defer_aie_run \
 		--package.sd_file ${HOST_EXE} \
 		${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."

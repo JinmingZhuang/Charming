@@ -162,12 +162,10 @@ int main(int argc, char** argv) {
     out_bomapped = reinterpret_cast<float*>(xrtBOMap(out_bohdl));
     memset(out_bomapped, 0xABCDEF00, sizeOut * sizeof(float));
     
-    int graph_iter=X*Y*Z*TX*TY*TZ;
     myGraph.init(); 
     printf("graph init\n");
-    myGraph.run(graph_iter);
+    myGraph.run(-1);
     
-
     std::cout << "Kernel run\n";
     xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "dma");
     xrtRunHandle dma_rhdl;
@@ -201,7 +199,7 @@ int main(int argc, char** argv) {
                         nullptr, nullptr, nullptr, nullptr);    
         xrtRunWait(dma_rhdl);
     }
-    myGraph.end();
+    
     auto kernel_end = std::chrono::high_resolution_clock::now();
     kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
     kernel_time_in_sec = kernel_time.count();
@@ -262,6 +260,7 @@ int main(int argc, char** argv) {
     xrtBOFree(out_bohdl);
     xrtBOFree(in_bohdl0);
     xrtBOFree(in_bohdl1);
+    myGraph.wait();
     xrtDeviceClose(dhdl);
     return 0;
 }

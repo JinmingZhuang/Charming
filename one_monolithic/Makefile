@@ -31,10 +31,10 @@ HOST_EXE_MLP = hostexe_mlp
 HOST_SRCS_MLP := ./host/host_MLP.cpp
 HOST_EXE_NCF = hostexe_ncf
 HOST_SRCS_NCF := ./host/host_NCF.cpp
-SYSROOT_PATH = ./
+SYSROOT_PATH = /share/Jinming/Versal
 SYSROOT = ${SYSROOT_PATH}/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
-EDGE_COMMON_SW_PATH = ./
+EDGE_COMMON_SW_PATH = /share/Jinming
 EDGE_COMMON_SW= ${EDGE_COMMON_SW_PATH}/xilinx-versal-common-v2021.1
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
@@ -46,7 +46,7 @@ BUILD_DIR := ./build_dir.$(TARGET).xilinx_vck190_base_202110_1
 KERNEL_XO := $(TEMP_DIR)/dma.xo
 GRAPH    = aie/mm_top.cpp
 LIBADF  = libadf.a
-AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=4096 -include="./aie" -workdir=./Work ${GRAPH} #-v
+AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=1024 -include="./aie" -workdir=./Work ${GRAPH} #-v
 AIE_SIM_CMD = aiesimulator --pkg-dir=./Work --dump-vcd foo --profile
 AIE_HOSTEXE = aie_control_xrt.o
 ifeq ($(PRE_BUILT),1)
@@ -163,11 +163,11 @@ $(BUILD_DIR)/${XCLBIN}: ${KERNEL_XO} ${LIBADF}
 	v++ -l $(CLFLAGS) --temp_dir $(BUILD_DIR) $(LDCLFLAGS) -o'$@' $(+) | tee $(BUILD_DIR)/hpc_xclbin.log
 
 
-# aiehost: $(AIE_HOSTEXE)
-# ifneq ($(PRE_BUILT),1)
-# $(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
-# 	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
-# endif
+aiehost: $(AIE_HOSTEXE)
+ifneq ($(PRE_BUILT),1)
+$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
+	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
+endif
 
 host: guard-CXX guard-SDKTARGETSYSROOT ${HOST_EXE} 
 ${HOST_EXE}: ${AIE_HOSTEXE}
@@ -195,8 +195,8 @@ ${HOST_EXE_MLP}: $(AIE_HOSTEXE)
 
 hostncf: ${HOST_EXE_NCF}
 ${HOST_EXE_NCF}: $(AIE_HOSTEXE)
-	$(CXX) $(HOST_SRCS_NCF) $(GCC_FLAGS) $(GCC_INCLUDES) -o NCF.o
-	$(CXX) $(AIE_HOSTEXE) NCF.o $(GCC_LIB) -o ${HOST_EXE_NCF}
+	$(CXX) $(HOST_SRCS_NCF) $(GCC_FLAGS) $(GCC_INCLUDES) -o ncf.o
+	$(CXX) $(AIE_HOSTEXE) ncf.o $(GCC_LIB) -o ${HOST_EXE_NCF}
 	@echo "COMPLETE: Host_NCF application created."
 
 ECHO:= @echo
@@ -213,7 +213,9 @@ package_${TARGET}: unzip ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host hostbert h
 		--package.kernel_image ${IMAGE} \
 		--package.boot_mode=sd \
 		--package.image_format=ext4 \
+		--package.defer_aie_run \
 		--package.sd_file run_mm.sh \
+		--package.sd_file run_application.sh \
 		--package.sd_file ${HOST_EXE} \
 		--package.sd_file ${HOST_EXE_BERT} \
 		--package.sd_file ${HOST_EXE_ViT} \
@@ -231,6 +233,7 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host hostbert hostvit hostmlp 
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
 		--package.sd_file run_mem.sh \
+		--package.sd_file run_application.sh \
 		--package.sd_file ${HOST_EXE} \
 		--package.sd_file ${HOST_EXE_BERT} \
 		--package.sd_file ${HOST_EXE_ViT} \

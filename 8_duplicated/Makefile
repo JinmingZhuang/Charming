@@ -35,10 +35,10 @@ FINAL_XCLBIN=mm_${TARGET}.xclbin
 TEMP_DIR := ./_x.$(TARGET).xilinx_vck190_base_202110_1
 BUILD_DIR := ./build_dir.$(TARGET).xilinx_vck190_base_202110_1
 
-KERNEL_XO := $(TEMP_DIR)/dma_large.xo $(TEMP_DIR)/dma_small.xo #$(TEMP_DIR)/transpose.xilinx_vck190_base_202110_1.hw.xo $(TEMP_DIR)/reshape.xilinx_vck190_base_202110_1.hw.xo $(TEMP_DIR)/softmax.xilinx_vck190_base_202110_1.hw.xo $(TEMP_DIR)/layernorm.xilinx_vck190_base_202110_1.hw.xo
+KERNEL_XO := $(TEMP_DIR)/dma.xo
 GRAPH    = aie/mm_top.cpp
 LIBADF  = libadf.a
-AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=4096 -include="./aie" -workdir=./Work ${GRAPH} #-v
+AIE_CMPL_CMD = aiecompiler -platform=${PLATFORM} --target=hw --stacksize=1024 -include="./aie" -workdir=./Work ${GRAPH} #-v
 AIE_SIM_CMD = aiesimulator --pkg-dir=./Work --dump-vcd foo --profile
 AIE_HOSTEXE = ./aie_control_xrt.o
 ifeq ($(PRE_BUILT),1)
@@ -144,10 +144,10 @@ aiesim: ${LIBADF}
 	@echo "COMPLETE: aiesim success."
 
 kernels:$(KERNEL_XO)
-$(TEMP_DIR)/dma_large.xo: kernel_large/dma_large.cpp kernel_large/packet_sender_large.hpp
+$(TEMP_DIR)/dma.xo: kernel/dma.cpp kernel/packet_sender.hpp
 	mkdir -p $(TEMP_DIR)
-	$(VCC) $(VPP_XO_FLAGS) -k dma_large --hls.clock 300000000:dma_large $< -o $@ | tee $(TEMP_DIR)/dma_large.log
-	@echo "### ***** dma_large compilation done! *****"
+	$(VCC) $(VPP_XO_FLAGS) -k dma --hls.clock 300000000:dma $< -o $@ | tee $(TEMP_DIR)/dma.log
+	@echo "### ***** dma compilation done! *****"
 $(TEMP_DIR)/dma_small.xo: kernel_small/dma_small.cpp kernel_small/packet_sender_small.hpp
 	$(VCC) $(VPP_XO_FLAGS) -k dma_small --hls.clock 300000000:dma_small $< -o $@ | tee $(TEMP_DIR)/dma_small.log
 	@echo "### ***** dma_small compilation done! *****"
@@ -184,9 +184,10 @@ package_${TARGET}: unzip ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
 		--package.kernel_image ${IMAGE} \
 		--package.boot_mode=sd \
 		--package.image_format=ext4 \
-		--package.sd_file ${HOST_EXE} \
+		--package.defer_aie_run \
 		--package.sd_file run_mm.sh \
 		--package.sd_file cal_throughput.sh \
+		--package.sd_file ${HOST_EXE} \
 		${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 else
@@ -198,9 +199,9 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host
 		--package.boot_mode=sd \
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
-		--package.sd_file ${HOST_EXE} \
 		--package.sd_file run_mm.sh \
 		--package.sd_file cal_throughput.sh \
+		--package.sd_file ${HOST_EXE} \
 		${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 endif
