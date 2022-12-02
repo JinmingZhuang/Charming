@@ -188,6 +188,8 @@ package_${TARGET}: unzip ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
 		--package.sd_file run_mm.sh \
 		--package.sd_file cal_throughput.sh \
 		--package.sd_file ${HOST_EXE} \
+		--package.sd_file run_mm.sh \
+		--package.sd_file cal_throughput.sh \
 		${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 else
@@ -202,6 +204,8 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host
 		--package.sd_file run_mm.sh \
 		--package.sd_file cal_throughput.sh \
 		--package.sd_file ${HOST_EXE} \
+		--package.sd_file run_mm.sh \
+		--package.sd_file cal_throughput.sh \
 		${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
 endif

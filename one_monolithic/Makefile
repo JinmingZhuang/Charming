@@ -163,11 +163,11 @@ $(BUILD_DIR)/${XCLBIN}: ${KERNEL_XO} ${LIBADF}
 	v++ -l $(CLFLAGS) --temp_dir $(BUILD_DIR) $(LDCLFLAGS) -o'$@' $(+) | tee $(BUILD_DIR)/hpc_xclbin.log
 
 
-aiehost: $(AIE_HOSTEXE)
-ifneq ($(PRE_BUILT),1)
-$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
-	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
-endif
+# aiehost: $(AIE_HOSTEXE)
+# ifneq ($(PRE_BUILT),1)
+# $(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
+# 	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
+# endif
 
 host: guard-CXX guard-SDKTARGETSYSROOT ${HOST_EXE} 
 ${HOST_EXE}: ${AIE_HOSTEXE}

@@ -54,14 +54,22 @@ then
     		Layer5=$line;
      	fi
     done < "Figure7_8_duplicate_$task.log"
+<<<<<<< HEAD
     Time=`echo "scale=2; ${Layer0} + ${Layer1} + ${Layer2} + ${Layer3} + ${Layer4} + ${Layer5}*1536/10" | bc`;
+=======
+    Time=`echo ${Layer0} + ${Layer1} + ${Layer2} + ${Layer3} + ${Layer4} + ${Layer5}*10*1536 | bc`;
+>>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
 	# 100 Iteration, 8 Accs
 	Throughput=`echo "scale=2; ${OPs}*100*8/${Time}/1000000000" | bc`;
     echo "ViT on 8 Duplicate Accs: ${Throughput} GOPs";
 elif [ $task == "NCF" ] || [ $task == "ncf" ]
 then
     # M * K * N * 2
+<<<<<<< HEAD
     let OPs=$(( 3072*4096*2048*2 + 3072*2048*1024*2 + 3072*1024*512*2 + 3072*512*256*2/100 + 3072*256*128*2 + 3072*128*64*2 + 3072*64*32*2 + 3072*32*16*2 + 3072*32*1*2));
+=======
+    let OPs=$(( 3072*4096*2048*2 + 3072*2048*1024*2 + 3072*1024*512*2 + 3072*512*256*2 + 3072*256*128*2 + 3072*128*64*2 + 3072*64*32*2 + 3072*32*16*2 + 3072*32*1*2));
+>>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
     for ((n=1;n<=9;n++));
     do
     	read -r line
