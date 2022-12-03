@@ -22,11 +22,11 @@ then
     	then
     		Layer7=$line;
      	fi
-    done < "Figure7_8_duplicate_$task.log"
+    done < "Figure7_8_temp_$task.log"
     Time=`echo ${Layer0_3}*4 + ${Layer4} + ${Layer5} + ${Layer6}*96 + ${Layer7}*96 | bc`;
 	# 100 Iteration, 8 Accs
     Throughput=`echo "scale=2; ${OPs}*100*8/${Time}/1000000000" | bc`;
-    echo "Bert on 8 Duplicate Accs: ${Throughput} GOPs";
+    echo "Bert on 8 Duplicate Accs: ${Throughput} GOPs" >>Figure7_8_duplicate_${task};
 elif [ $task == "vit" ] || [ $task == "VIT" ] || [ $task == "ViT" ]
 then
     # M * K * N * #layer * 2
@@ -53,11 +53,11 @@ then
     	then
     		Layer5=$line;
      	fi
-    done < "Figure7_8_duplicate_$task.log"
+    done < "Figure7_8_temp_$task.log"
     Time=`echo "scale=2; ${Layer0} + ${Layer1} + ${Layer2} + ${Layer3} + ${Layer4} + ${Layer5}*1536/10" | bc`;
 	# 100 Iteration, 8 Accs
 	Throughput=`echo "scale=2; ${OPs}*100*8/${Time}/1000000000" | bc`;
-    echo "ViT on 8 Duplicate Accs: ${Throughput} GOPs";
+    echo "ViT on 8 Duplicate Accs: ${Throughput} GOPs" >>Figure7_8_duplicate_${task};
 elif [ $task == "NCF" ] || [ $task == "ncf" ]
 then
     # M * K * N * 2
@@ -93,11 +93,11 @@ then
     	then
     		Layer8=$line;
      	fi
-    done < "Figure7_8_duplicate_$task.log"
-    Time=`echo ${Layer0} + ${Layer1} + ${Layer2} + ${Layer3} + ${Layer4} + ${Layer5} + ${Layer6} + ${Layer7} + ${Layer8}| bc`;
+    done < "Figure7_8_temp_$task.log"
+    Time=`echo ${Layer0} + ${Layer1} + ${Layer2} + ${Layer3}*100 + ${Layer4} + ${Layer5} + ${Layer6} + ${Layer7} + ${Layer8}| bc`;
     # 100 Iteration, 8 Accs
 	Throughput=`echo "scale=2; ${OPs}*8*100/${Time}/1000000000" | bc`;
-    echo "NCF on 8 Duplicate Accs: ${Throughput} GOPs";
+    echo "NCF on 8 Duplicate Accs: ${Throughput} GOPs" >>Figure7_8_duplicate_${task};
 elif [ $task == "MLP" ] || [ $task == "mlp" ]
 then
     # M * K * N * #layer * 2
@@ -118,9 +118,9 @@ then
     	then
     		Layer3=$line;
      	fi
-    done < "Figure7_8_duplicate_$task.log"
+    done < "Figure7_8_temp_$task.log"
     Time=`echo ${Layer0} + ${Layer1} + ${Layer2} + ${Layer3} | bc`;
 	# 100 Iteration, 8 Accs
-    Throughput=`echo "scale=2; ${OPs}*100*8/${Time}/1000000000" | bc`;
-    echo "MLP on 8 Duplicate Accs: ${Throughput} GOPs";
+    Throughput=`echo "scale=2; ${OPs}*10*8/${Time}/1000000000" | bc`;
+    echo "MLP on 8 Duplicate Accs: ${Throughput} GOPs" >>Figure7_8_duplicate_${task};
 fi
