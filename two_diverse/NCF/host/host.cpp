@@ -748,11 +748,12 @@ int main(int argc, char** argv) {
     double TOPS_Overall= (TOPS_total)*iter/kernel_time_in_sec_total;
     std::cout << std::endl;
     std::cout << std::endl;
-    std::cout << "Total time is: "<< kernel_time_in_sec_total <<"s, TOPS_Overall = " << TOPS_Overall << " GOPS/s" << std::endl;
-
+    
     for (int i=0;i<NUM_LARYER;i++){
         std::cout << "The time of layer" << i <<" is : " << kernel_time_in_sec[i] <<"s, TOPS_ACC" << i <<" = " << TOPS[i] << " GOPS/s" << std::endl;
     }
+
+    std::cout << "Total time is: "<< kernel_time_in_sec_total <<"s, TOPS_Overall = " << TOPS_Overall << " GOPS/s" << std::endl;
     
     std::cout << std::endl;
     std::cout << std::endl;
@@ -1030,7 +1031,8 @@ int main(int argc, char** argv) {
     xrtBOFree(bohdl_layer8_in1);
     xrtBOFree(bohdl_layer8_out);
 
-
+    myGraph_large.wait();
+    myGraph_small.wait();
     xrtDeviceClose(dhdl);
     return 0;
 }
