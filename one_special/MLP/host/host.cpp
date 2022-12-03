@@ -457,8 +457,7 @@ int main(int argc, char** argv) {
     double TOPS_Overall= (TOPS_total)*iter/Time_total;
     std::cout << std::endl;
     std::cout << std::endl;
-    std::cout << "Total time is: "<< Time_total <<"s, TOPS_Overall = " << TOPS_Overall << " GOPS/s" << std::endl;
-
+    
     for (int i=0;i<NUM_LARYER;i++){
         std::cout << "The time of each layer" << i <<" is : " << kernel_time_in_sec[i] <<"s, TOPS_ACC" << i <<" = " << TOPS[i] << " GOPS/s" << std::endl;
     }
@@ -466,6 +465,7 @@ int main(int argc, char** argv) {
     std::cout << std::endl;
     std::cout << std::endl;
 
+    std::cout << "Total time is: "<< Time_total <<"s, TOPS_Overall = " << TOPS_Overall << " GOPS/s" << std::endl;
 
     // sync output memory
     xrtBOSync(bohdl_layer0_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[0][0]*layer[0][2])* sizeof(float),/*OFFSET=*/ 0);
@@ -601,7 +601,7 @@ int main(int argc, char** argv) {
     xrtBOFree(bohdl_layer3_in0);
     xrtBOFree(bohdl_layer3_in1);
     xrtBOFree(bohdl_layer3_out);
-
+    myGraph.wait();
     xrtDeviceClose(dhdl);
     return 0;
 }

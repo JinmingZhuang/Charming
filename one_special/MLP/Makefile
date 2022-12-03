@@ -210,7 +210,7 @@ clean:
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.hw run_app.sh 
-	-$(RMDIR) *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
+	-$(RMDIR) *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin ./pre_built/libadf.a
 	$(MAKE) -C sw clean
 
 cleansim:
