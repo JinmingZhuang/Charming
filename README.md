@@ -127,19 +127,34 @@ vi Figure7_One_Mono.log
 cd one_special/BERT
 make package PLATFORM=${PATH} SYSROOT=${PATH} EDGE_COMMON_SW=${PATH} PRE_BUILT=1
 ```
-#### Copy package.hw/sd_card.img to an micro sd card and boot the board.
+#### Copy package.hw/sd_card.img to an micro sd card and boot the board.<br/>
 ```
 sh run_application.sh
 vi Figure7_One_Spe.log
 ```
 
 #### 3. Two diverse design result (Figure 7 Blue Bars)<br/>
-Copy the image of each design in "two_diverse" folder into sd_card and boot the system<br/>
+#### The test processes of two diverse design are the same as one specialized design<br/>
 ```
-./host{bert,vit,ncf,mlp} mm_hw.xclbin 100 0
+cd two_diverse/BERT
+make package PLATFORM=${PATH} SYSROOT=${PATH} EDGE_COMMON_SW=${PATH} PRE_BUILT=1
+```
+#### Copy package.hw/sd_card.img to an micro sd card and boot the board.<br/>
+```
+sh run_application.sh
+vi Figure7_Two_Div.log
 ```
 
 #### 4. 8 duplicate design result (Figure 7 Yellow Bars)<br/>
+#### All the tasks share the same sd_card.img<br/>
 ```
-./host{bert,vit,ncf,mlp} mm_hw.xclbin 100 0
+cd 8_duplicated
+make package PLATFORM=${PATH} SYSROOT=${PATH} EDGE_COMMON_SW=${PATH} PRE_BUILT=1
+```
+
+#### Copy package.hw/sd_card.img to an micro sd card and boot the board.<br/>
+#### Users can change tasks to vit, ncf, mlp as well
+```
+sh run_mm.sh bert
+vi Figure7_8_duplicate_bert.log
 ```
