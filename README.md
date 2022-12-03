@@ -99,14 +99,16 @@ make package PLATFORM=${PATH} SYSROOT=${PATH} EDGE_COMMON_SW=${PATH} PRE_BUILT=1
 
 
 #### 2) Run script on board and view the results (5-10 Minutes)<br/>
-#### The results shown in the red box of Table 2 should be within ±5% of the on board results.<br/>
+#### a. Copy package.hw/sd_card.img to an micro sd card and boot the board.
+#### b. The results shown in the red box of Table 2 should be within ±5% of the on board results.<br/>
 ```
+cd /mnt/sd-mmcblk0p1
 sh run_mm.sh
 vi Table2.log
 ```
 
 ### 2. End-to-end application caomparison of BERT, ViT NCF and MLP (Figure 7) <br/>
-![image](https://user-images.githubusercontent.com/77606152/197424370-bc03e3f3-cc04-4876-85ec-a59a006b7319.png)<br/>
+<img src="https://user-images.githubusercontent.com/77606152/205414725-52e8f217-54db-4dcd-8383-9515bbf9f21d.png" width="500" height="300"> <br/>
 
 #### 1. One monolithic design result(Figure 7 Grey Bars)<br/>
 
@@ -117,13 +119,18 @@ vi Figure7_One_Mono.log
 ```
 
 #### 2. One speacialized design result (Figure 7 Orange Bars)<br/>
-#### Here we run each application for 20 times in order to amortize the measurement uncertainty. Following is the example for BERT application, for other applications we should change the directories and images.
+#### Here we run each application for 20 times in order to amortize the measurement uncertainty. Following is the example for BERT application, same instruction can be used on other applications. Note that for NCF and MLP applications the hardware design and results are the same as their one monolithic design as shown in Figure 7.
 
 <!-- #### Note that in order to avoid of rebooting the system after running each task, we set myGragh.run(-1) in the host code which makes AIE run forever. Thus, the AIE will not stop automatically, after running each task we should enter "Ctrl + C" to stop the program and run next Application.<br/> -->
 
-Copy the image of each design in "one_special" folder into sd_card and boot the system<br/>
 ```
-./host{bert,vit,ncf,mlp} mm_hw.xclbin 100 0
+cd one_special/BERT
+make package PLATFORM=${PATH} SYSROOT=${PATH} EDGE_COMMON_SW=${PATH} PRE_BUILT=1
+```
+#### Copy package.hw/sd_card.img to an micro sd card and boot the board.
+```
+sh run_application.sh
+vi Figure7_One_Spe.log
 ```
 
 #### 3. Two diverse design result (Figure 7 Blue Bars)<br/>
