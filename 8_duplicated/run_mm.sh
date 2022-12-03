@@ -6,21 +6,12 @@ task=$1;
 echo "Current {task} is ${task}";
 if [ ${task} == "bert" ] || [ ${task} == "BERT" ]
 then
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
 	./hostexe mm_hw.xclbin 512 512 64 100 0 >> 3_result_${task}_Layer6;
 	echo -e "\nLayer6 Succeed!";
 	sleep 15;
 	./hostexe mm_hw.xclbin 512 64 512 100 0 >> 4_result_${task}_Layer7;
 	echo -e "\nLayer7 Succeed!";
 	sleep 5;
-<<<<<<< HEAD
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
-=======
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
 	./hostexe mm_hw.xclbin 3072 1024 1024 100 0 >> 0_result_${task}_Layer0_3;
 	echo -e "\nLayer0_3 Succeed!";
 	sleep 5;
@@ -30,8 +21,6 @@ then
 	./hostexe mm_hw.xclbin 3072 4096 1024 100 0 >> 2_result_${task}_Layer5;
 	echo -e "\nLayer5 Succeed!";
 	sleep 5;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	./hostexe mm_hw.xclbin 512 512 64 100 0 >> 3_result_${task}_Layer6;
 	echo -e "\nLayer6 Succeed!";
 	sleep 15;
@@ -40,18 +29,6 @@ then
 	sleep 5;
 elif [ ${task} == "vit" ] || [ ${task} == "VIT" ] || [ ${task} == "ViT" ]
 then
-=======
-=======
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
-elif [ ${task} == "vit" ] || [ ${task} == "VIT" ] || [ ${task} == "ViT" ]
-then
-	./hostexe mm_hw.xclbin 64 64 64 1000 0 >> 5_result_${task}_Layer5_6;
-	echo -e "\nLayer5_6 Succeed!";
-	sleep 5;
-<<<<<<< HEAD
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
-=======
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
 	./hostexe mm_hw.xclbin 3072 3024 1024 100 0 >> 0_result_${task}_Layer0;
 	echo -e "\nLayer0 Succeed!";
 	sleep 5;
@@ -67,15 +44,9 @@ then
 	./hostexe mm_hw.xclbin 3072 1024 3048 100 0 >> 4_result_${task}_Layer4;
 	echo -e "\nLayer4 Succeed!";
 	sleep 5;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	./hostexe mm_hw.xclbin 64 64 64 1000 0 >> 5_result_${task}_Layer5_6;
 	echo -e "\nLayer5_6 Succeed!";
 	sleep 5;
-=======
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
-=======
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
 elif [ ${task} == "NCF" ] || [ ${task} == "ncf" ]
 then
 	./hostexe mm_hw.xclbin 3072 4096 2048 100 0 >> 0_result_${task}_Layer0;
@@ -87,15 +58,7 @@ then
 	./hostexe mm_hw.xclbin 3072 1024 512 100 0 >> 2_result_${task}_Layer2;
 	echo -e "\nLayer2 Succeed!";
 	sleep 5;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	./hostexe mm_hw.xclbin 3072 512 256 1 0 >> 3_result_${task}_Layer3;
-=======
 	./hostexe mm_hw.xclbin 3072 512 256 100 0 >> 3_result_${task}_Layer3;
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
-=======
-	./hostexe mm_hw.xclbin 3072 512 256 100 0 >> 3_result_${task}_Layer3;
->>>>>>> a39394c1f5eab3dc675c2445722acdf73c8efbbf
 	echo -e "\nLayer3 Succeed!";
 	sleep 5;
 	./hostexe mm_hw.xclbin 3072 256 128 100 0 >> 4_result_${task}_Layer4;
