@@ -440,6 +440,14 @@ int main(int argc, char** argv) {
 
     xrtBOFree(bohdl_layer7_out);
 
+    myGraph0.wait();
+    myGraph1.wait();
+    myGraph2.wait();
+    myGraph3.wait();
+    myGraph4.wait();
+    myGraph5.wait();
+    myGraph6.wait();
+    myGraph7.wait();
     xrtDeviceClose(dhdl);
     return 0;
 }

@@ -222,7 +222,7 @@ clean:
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.hw run_app.sh 
-	-$(RMDIR) *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
+	-$(RMDIR) *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin ./pre_built/libadf.a
 	$(MAKE) -C sw clean
 
 cleansim:
@@ -232,4 +232,4 @@ cleantemp:
 cleanhost:
 	-$(RMDIR) hostexe aie_control_xrt.o main.o 
 cleanpac:
-	-$(RMDIR) ${FINAL_XCLBIN} mm_${TARGET}.xclbin.package_summary package.${TARGET} ./pre_built/libadf.a
+	-$(RMDIR) ${FINAL_XCLBIN} mm_${TARGET}.xclbin.package_summary package.${TARGET} 
