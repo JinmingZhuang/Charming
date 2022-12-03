@@ -185,6 +185,7 @@ package_${TARGET}: unzip ${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} host
 		--package.boot_mode=sd \
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
+		--package.sd_file run_applicatoin.sh \
 		--package.sd_file ${HOST_EXE} \
 		${PRE_BUILT_LIBADF} ${PRE_BUILT_XCLBIN} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."
@@ -197,6 +198,7 @@ package_${TARGET}: ${LIBADF} ${BINARY_CONTAINERS} host
 		--package.boot_mode=sd \
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
+		--package.sd_file run_applicatoin.sh \
 		--package.sd_file ${HOST_EXE} \
 		${LIBADF} ${BINARY_CONTAINERS} -o ${FINAL_XCLBIN}
 	@echo "COMPLETE: Package created."

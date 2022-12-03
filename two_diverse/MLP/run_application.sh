@@ -3,7 +3,7 @@ export PATH=$PATH:/sbin
 export XILINX_XRT=/usr
 
 #Running One-Monolithic design for BERT, ViT, NCF and MLP
-StringVal="ncf"
+StringVal="mlp"
 
 let k=0;
 for i in $StringVal;
@@ -25,7 +25,7 @@ rm -rf Figure7_One_Spe.log;
 for filename in *_app_result_*;
 do  
 	let n=1;
-    let judge=27;
+    let judge=17;
 	while read line; do
 		if (( ${n} == ${judge} ))
 		then
@@ -37,5 +37,5 @@ do
 done
 rm -rf *_result_*;
 
-echo -e "\nNCF Test Succeed!";
-echo -e "\nPlease See On-board Results of One-specialized design of NCF in Figure7_One_Spe.log ";
+echo -e "\nMLP Test Succeed!";
+echo -e "\nPlease See On-board Results of One-specialized design of MLP in Figure7_One_Spe.log ";
