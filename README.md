@@ -158,3 +158,9 @@ make package PLATFORM=${PATH} SYSROOT=${PATH} EDGE_COMMON_SW=${PATH} PRE_BUILT=1
 sh run_mm.sh bert
 vi Figure7_8_duplicate_bert.log
 ```
+**References:**<br>
+[1] **[AIE Architecture(AM009 2021.1)](https://docs.xilinx.com/r/en-US/am009-versal-ai-engine)**<br>
+[2] **[AIE Instructions and APIs(UG1078 UG1529)](https://www.xilinx.com/htmldocs/aiengine_intrinsics_start.html)**<br>
+[3] **[AIE Coding Example(UG1079 2021.1)](https://docs.xilinx.com/r/2021.1-English/ug1079-ai-engine-kernel-coding/Revision-History)**<br>
+[4] **[Versal Programming Environment(UG1076 2021.1)](https://docs.xilinx.com/r/2021.1-English/ug1076-ai-engine-environment/Revision-History)**<br>
+[5] **[Introduction to FP32 programming of AIE](https://github.com/Xilinx/Vitis-Tutorials/blob/2022.1/AI_Engine_Development/Feature_Tutorials/07-AI-Engine-Floating-Point/README.md)**<br>
