@@ -20,8 +20,8 @@ do
 done
 
 
-#Parsing the results into file "Figure7_One_Spe.log"
-rm -rf Figure7_One_Spe.log;
+#Parsing the results into file "Figure7_Two_Div.log"
+rm -rf Figure7_Two_Div.log;
 for filename in *_app_result_*;
 do  
 	let n=1;
@@ -30,7 +30,7 @@ do
 		if (( ${n} == ${judge} ))
 		then
 			my_str=$line;
-			echo "${filename}:${my_str}" >>Figure7_One_Spe.log; 
+			echo "${filename}:${my_str}" >>Figure7_Two_Div.log; 
 		fi
 		let n=${n}+1;
 	done < ./$filename
@@ -38,4 +38,4 @@ done
 rm -rf *_result_*;
 
 echo -e "\nViT Test Succeed!";
-echo -e "\nPlease See On-board Results of One-specialized design of ViT in Figure7_One_Spe.log ";
+echo -e "\nPlease See On-board Results of One-specialized design of ViT in Figure7_Two_Div.log ";

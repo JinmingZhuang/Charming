@@ -22,7 +22,7 @@ done
 
 #Parsing the results into file "Figure7_One_Spe.log"
 let k=0;
-rm -rf Figure7_One_Mono.log;
+rm -rf Figure7_One_Spe.log;
 for filename in *_app_result_*;
 do  
 	let n=1;
