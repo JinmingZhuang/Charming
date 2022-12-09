@@ -23,10 +23,10 @@ XSA	 = vck190_aie_base_graph_${TARGET}.xsa
 XPFM	 = vck190_xpfm
 HOST_EXE = hostexe
 HOST_SRCS := ./host/host.cpp
-SYSROOT_PATH = .
+SYSROOT_PATH = /share/Jinming/Versal
 SYSROOT = ${SYSROOT_PATH}/sysroots/cortexa72-cortexa53-xilinx-linux
 SDKTARGETSYSROOT = ${SYSROOT}
-EDGE_COMMON_SW_PATH = .
+EDGE_COMMON_SW_PATH = /share/Jinming
 EDGE_COMMON_SW= ${EDGE_COMMON_SW_PATH}/xilinx-versal-common-v2021.1
 ROOTFS=${EDGE_COMMON_SW}/rootfs.ext4
 IMAGE=${EDGE_COMMON_SW}/Image
@@ -157,7 +157,7 @@ $(BUILD_DIR)/${XCLBIN}: ${KERNEL_XO} ${LIBADF}
 
 aiehost: $(AIE_HOSTEXE)
 ifneq ($(PRE_BUILT),1)
-$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
+	$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
 	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
 endif
 
