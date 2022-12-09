@@ -74,7 +74,10 @@ const int DATA_SIZE1=H1*W1;
 const int DATA_SIZE2=W1*W2;
 const int OUT_SIZE=H1*W2;
 
-
+union int_float {
+int int_v;
+float float_v;
+};
 
 int main(int argc, char** argv) {
 
@@ -132,18 +135,20 @@ int main(int argc, char** argv) {
     std::vector<std::vector<float>>golden(M,std::vector<float>(N,1.0));
 
 
-
+    int_float a;
     srand (time(0));
     for (int m = 0; m < M; m++) {
         for (int k = 0; k < K; k++) {
-            DataInput0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            DataInput0[m][k]= a.float_v;
         } 
     }
 
     srand (time(0));
     for (int k = 0; k < K; k++) {
         for (int n = 0; n < N; n++) {
-            DataInput1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            DataInput1[k][n]= a.float_v;
         } 
     }
     
@@ -155,7 +160,7 @@ int main(int argc, char** argv) {
 
 
     
-        //layer0
+    //layer0
     for (int m = 0; m < M; m++) {
         for (int k = 0; k < K; k++) {
             bomapped_layer0_in0[m+k*M]=DataInput0[m][k];
