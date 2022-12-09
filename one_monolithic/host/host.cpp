@@ -50,6 +50,11 @@ static std::vector<char> load_xclbin(xrtDeviceHandle device, const std::string& 
     return header;
 }
 
+union int_float {
+int int_v;
+float float_v;
+};
+
 const int PACKET_NUM=4; 
 const int H1=32;
 const int W1=32;
@@ -124,17 +129,19 @@ int main(int argc, char** argv) {
     std::vector<float> DataInput1(sizeIn2,1.0);
     std::vector<float> golden(sizeOut,1.0);
 
-
     srand (time(0));
-
+    int_float a;
+    int_float b;
     for (int k = 0; k < sizeIn1; k++) {
-        DataInput0[k]= (rand()%5)*(float)1.0;
+        a.int_v= rand();
+        DataInput0[k]= a.float_v;
     } 
 
 
     srand (time(0));
     for (int k = 0; k < sizeIn2; k++) {
-        DataInput1[k]= (rand()%5)*(float)1.0;
+        b.int_v= rand();
+        DataInput1[k]= b.float_v;
     }
     
     //Allocate input mem

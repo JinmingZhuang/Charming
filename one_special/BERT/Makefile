@@ -157,7 +157,7 @@ $(BUILD_DIR)/${XCLBIN}: ${KERNEL_XO} ${LIBADF}
 
 aiehost: $(AIE_HOSTEXE)
 ifneq ($(PRE_BUILT),1)
-	$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
+$(AIE_HOSTEXE): ./Work/ps/c_rts/aie_control_xrt.cpp
 	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o'$@' $(+)
 endif
 

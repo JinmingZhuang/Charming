@@ -107,6 +107,11 @@ const int layer[NUM_LARYER][4] =
     {3072,256,512,1}
 };
 
+union int_float {
+int int_v;
+float float_v;
+};
+
 int main(int argc, char** argv) {
 
     int iter=500,verify=0;
@@ -171,17 +176,20 @@ int main(int argc, char** argv) {
     std::vector<std::vector<float>>layer8_in1(layer[8][1],std::vector<float>(layer[8][2],1.0));
     std::vector<std::vector<float>>layer8_golden(layer[8][0],std::vector<float>(layer[8][2],1.0));
 
+    int_float a;
     //layer0
     srand (time(0));
     for (int m = 0; m < layer[0][0]; m++) {
         for (int k = 0; k < layer[0][1]; k++) {
-            layer0_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer0_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[0][1]; k++) {
         for (int n = 0; n < layer[0][2]; n++) {
-            layer0_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer0_in1[k][n]= a.float_v;
         }
     }
 
@@ -189,13 +197,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[1][0]; m++) {
         for (int k = 0; k < layer[1][1]; k++) {
-            layer1_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer1_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[1][1]; k++) {
         for (int n = 0; n < layer[1][2]; n++) {
-            layer1_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer1_in1[k][n]= a.float_v;
         }
     }
 
@@ -203,13 +213,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[2][0]; m++) {
         for (int k = 0; k < layer[2][1]; k++) {
-            layer2_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer2_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[2][1]; k++) {
         for (int n = 0; n < layer[2][2]; n++) {
-            layer2_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer2_in1[k][n]= a.float_v;
         }
     }
 
@@ -217,13 +229,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[3][0]; m++) {
         for (int k = 0; k < layer[3][1]; k++) {
-            layer3_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer3_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[3][1]; k++) {
         for (int n = 0; n < layer[3][2]; n++) {
-            layer3_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer3_in1[k][n]= a.float_v;
         }
     }
 
@@ -231,13 +245,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[4][0]; m++) {
         for (int k = 0; k < layer[4][1]; k++) {
-            layer4_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer4_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[4][1]; k++) {
         for (int n = 0; n < layer[4][2]; n++) {
-            layer4_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer4_in1[k][n]= a.float_v;
         }
     }
 
@@ -245,13 +261,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[5][0]; m++) {
         for (int k = 0; k < layer[5][1]; k++) {
-            layer5_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer5_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[5][1]; k++) {
         for (int n = 0; n < layer[5][2]; n++) {
-            layer5_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer5_in1[k][n]= a.float_v;
         }
     }
 
@@ -259,13 +277,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[6][0]; m++) {
         for (int k = 0; k < layer[6][1]; k++) {
-            layer6_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer6_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[6][1]; k++) {
         for (int n = 0; n < layer[6][2]; n++) {
-            layer6_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer6_in1[k][n]= a.float_v;
         }
     }
 
@@ -273,13 +293,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[7][0]; m++) {
         for (int k = 0; k < layer[7][1]; k++) {
-            layer7_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer7_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[7][1]; k++) {
         for (int n = 0; n < layer[7][2]; n++) {
-            layer7_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer7_in1[k][n]= a.float_v;
         }
     }
 
@@ -287,13 +309,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[8][0]; m++) {
         for (int k = 0; k < layer[8][1]; k++) {
-            layer8_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer8_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[8][1]; k++) {
         for (int n = 0; n < layer[8][2]; n++) {
-            layer8_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer8_in1[k][n]= a.float_v;
         }
     }
 

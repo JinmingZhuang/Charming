@@ -86,6 +86,11 @@ const int layer[NUM_LARYER][4] =
     {3072,4096,1024,1}
 };
 
+union int_float {
+int int_v;
+float float_v;
+};
+
 int main(int argc, char** argv) {
     int iter=500,verify=0;
     char* xclbinFilename;
@@ -131,17 +136,20 @@ int main(int argc, char** argv) {
 
 
 
+    int_float a;
     //layer0
     srand (time(0));
     for (int m = 0; m < layer[0][0]; m++) {
         for (int k = 0; k < layer[0][1]; k++) {
-            layer0_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer0_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[0][1]; k++) {
         for (int n = 0; n < layer[0][2]; n++) {
-            layer0_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer0_in1[k][n]= a.float_v;
         }
     }
 
@@ -149,13 +157,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[1][0]; m++) {
         for (int k = 0; k < layer[1][1]; k++) {
-            layer1_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer1_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[1][1]; k++) {
         for (int n = 0; n < layer[1][2]; n++) {
-            layer1_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer1_in1[k][n]= a.float_v;
         }
     }
 
@@ -163,13 +173,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[2][0]; m++) {
         for (int k = 0; k < layer[2][1]; k++) {
-            layer2_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer2_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[2][1]; k++) {
         for (int n = 0; n < layer[2][2]; n++) {
-            layer2_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer2_in1[k][n]= a.float_v;
         }
     }
 
@@ -177,13 +189,15 @@ int main(int argc, char** argv) {
     srand (time(0));
     for (int m = 0; m < layer[3][0]; m++) {
         for (int k = 0; k < layer[3][1]; k++) {
-            layer3_in0[m][k]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer3_in0[m][k]= a.float_v;
         }
     }
     srand (time(0));
     for (int k = 0; k < layer[3][1]; k++) {
         for (int n = 0; n < layer[3][2]; n++) {
-            layer3_in1[k][n]= (rand()%5)*(float)1.0;
+            a.int_v= rand();
+            layer3_in1[k][n]= a.float_v;
         }
     }
     
@@ -458,14 +472,16 @@ int main(int argc, char** argv) {
     std::cout << std::endl;
     std::cout << std::endl;
     
+
     for (int i=0;i<NUM_LARYER;i++){
         std::cout << "The time of each layer" << i <<" is : " << kernel_time_in_sec[i] <<"s, TOPS_ACC" << i <<" = " << TOPS[i] << " GOPS/s" << std::endl;
     }
-    
+
     std::cout << std::endl;
     std::cout << std::endl;
 
-    std::cout << "Total time is: "<< Time_total <<"s, TOPS_Overall = " << TOPS_Overall << " GOPS/s" << std::endl;
+     std::cout << "Total time is: "<< Time_total <<"s, TOPS_Overall = " << TOPS_Overall << " GOPS/s" << std::endl;
+
 
     // sync output memory
     xrtBOSync(bohdl_layer0_out, XCL_BO_SYNC_BO_FROM_DEVICE , (layer[0][0]*layer[0][2])* sizeof(float),/*OFFSET=*/ 0);
