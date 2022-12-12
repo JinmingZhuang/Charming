@@ -62,26 +62,26 @@ cd one_monolithic
 ### 1. AIE Compilation<br/>
 #### The source files of AIE design is in one_monolithic/aie folder, we leverage aiecompiler to generate the libadf.a file. <br/>
 ```
-make aie PLATFORM=${PATH}
+make aie PLATFORM=${PLATFORM} SYSROOT=${SYSROOT} EDGE_COMMON_SW=${EDGE_COMMON_SW}
 ```
 
 
 ### 2. Programmable Logic (PL) Compilation<br/>
 #### The source files of PL design is in one_monolithic/kernel folder, we leverage Vitis HLS to generate the RTL code and Vitis to generate the bitstream. <br/>
 ```
-make build PLATFORM=${PATH} 
+make build PLATFORM=${PLATFORM} SYSROOT=${SYSROOT} EDGE_COMMON_SW=${EDGE_COMMON_SW} 
 ```
 
 
 ### 3. Host Compilation<br/>
 #### The source files of PL design is in one_monolithic/host folder, we leverage the cross-compilation tool to generate the executable file that can be run on ARM CPU.<br/>
 ```
-make host SYSROOT=${PATH} EDGE_COMMON_SW=${PATH}
+make host PLATFORM=${PLATFORM} SYSROOT=${SYSROOT} EDGE_COMMON_SW=${EDGE_COMMON_SW}
 ```
 ### 4. File Package<br/>
 #### In this step, we package all the file together to package.hw/sd_card.img including the host executable, xclbin and petalinux boost files.<br/>
-```
-make package
+``` 
+make package PLATFORM=${PLATFORM} SYSROOT=${SYSROOT} EDGE_COMMON_SW=${EDGE_COMMON_SW}
 ```
 
 
